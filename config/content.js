@@ -16,7 +16,7 @@ const content = {
         },
 
         secondaryAction: {
-            label: "Learn moreew",
+            label: "Learn More",
             href: "#about",
         },
 
@@ -28,7 +28,7 @@ const content = {
         },
 
         card: {
-            title: "Made With Purpose",
+            title: "Edited inside content js",
 
             description: "Designed around your customers and your brand.",
         },

@@ -11,7 +11,7 @@ const sections = [
 
     {
         name: "about",
-        enabled: true,
+        enabled: false,
     },
 
     {
@@ -86,7 +86,7 @@ const sections = [
 
     {
         name: "cta",
-        enabled: true,
+        enabled: false,
     },
 
     {
@@ -96,7 +96,7 @@ const sections = [
 
     {
         name: "contact",
-        enabled: true,
+        enabled: false,
     },
 
     {
@@ -116,7 +116,7 @@ const sections = [
 
     {
         name: "footer",
-        enabled: true,
+        enabled: false,
     },
 ];
 

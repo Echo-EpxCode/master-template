@@ -4,6 +4,12 @@ import content from "../../config/content.js";
 
 const app = document.querySelector("#app");
 
+/*
+|--------------------------------------------------------------------------
+| SECTION LOADER
+|--------------------------------------------------------------------------
+*/
+
 async function loadSection(name) {
     const response = await fetch(`./src/sections/${name}.html`);
 
@@ -14,8 +20,16 @@ async function loadSection(name) {
     return response.text();
 }
 
+/*
+|--------------------------------------------------------------------------
+| WEBSITE RENDERER
+|--------------------------------------------------------------------------
+*/
+
 async function renderWebsite() {
     if (!app) {
+        console.error('App container "#app" was not found.');
+
         return;
     }
 
@@ -37,6 +51,12 @@ async function renderWebsite() {
     }
 }
 
+/*
+|--------------------------------------------------------------------------
+| SITE CONFIGURATION
+|--------------------------------------------------------------------------
+*/
+
 function updateSiteInformation() {
     document.title = site.name;
 
@@ -47,16 +67,47 @@ function updateSiteInformation() {
     });
 }
 
+// Testing
+// function updateSiteInformation() {
+//     console.log("SITE CONFIG:", site);
+
+//     document.title = site.name;
+
+//     const siteNameElements = document.querySelectorAll("[data-site-name]");
+
+//     siteNameElements.forEach((element) => {
+//         element.textContent = site.name;
+//     });
+// }
+
+/*
+|--------------------------------------------------------------------------
+| CONTENT CONFIGURATION
+|--------------------------------------------------------------------------
+*/
+
 function updateContent() {
     updateHeroContent();
 }
 
+/*
+|--------------------------------------------------------------------------
+| HERO CONTENT
+|--------------------------------------------------------------------------
+*/
+
 function updateHeroContent() {
-    if (!content.hero) {
+    const hero = content.hero;
+
+    if (!hero) {
         return;
     }
 
-    const hero = content.hero;
+    /*
+    |--------------------------------------------------------------------------
+    | Hero Elements
+    |--------------------------------------------------------------------------
+    */
 
     const eyebrow = document.querySelector("[data-hero-eyebrow]");
 
@@ -76,57 +127,121 @@ function updateHeroContent() {
 
     const highlights = document.querySelector("[data-hero-highlights]");
 
+    const cardTitle = document.querySelector("[data-hero-card-title]");
+
+    const cardDescription = document.querySelector("[data-hero-card-description]");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Hero Eyebrow
+    |--------------------------------------------------------------------------
+    */
+
     if (eyebrow) {
         eyebrow.textContent = hero.eyebrow;
     }
 
-    if (titleMain) {
+    /*
+    |--------------------------------------------------------------------------
+    | Hero Title
+    |--------------------------------------------------------------------------
+    */
+
+    if (titleMain && hero.title) {
         titleMain.textContent = hero.title.main;
     }
 
-    if (titleHighlight) {
+    if (titleHighlight && hero.title) {
         titleHighlight.textContent = hero.title.highlight;
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Hero Description
+    |--------------------------------------------------------------------------
+    */
 
     if (description) {
         description.textContent = hero.description;
     }
 
-    if (primaryAction) {
+    /*
+    |--------------------------------------------------------------------------
+    | Primary Action
+    |--------------------------------------------------------------------------
+    */
+
+    if (primaryAction && hero.primaryAction) {
         primaryAction.href = hero.primaryAction.href;
     }
 
-    if (primaryLabel) {
+    if (primaryLabel && hero.primaryAction) {
         primaryLabel.textContent = hero.primaryAction.label;
     }
 
-    if (secondaryAction) {
+    /*
+    |--------------------------------------------------------------------------
+    | Secondary Action
+    |--------------------------------------------------------------------------
+    */
+
+    if (secondaryAction && hero.secondaryAction) {
         secondaryAction.href = hero.secondaryAction.href;
     }
 
-    if (secondaryLabel) {
+    if (secondaryLabel && hero.secondaryAction) {
         secondaryLabel.textContent = hero.secondaryAction.label;
     }
 
-    if (highlights) {
-        highlights.innerHTML = "";
+    /*
+    |--------------------------------------------------------------------------
+    | Hero Highlights
+    |--------------------------------------------------------------------------
+    */
+
+    if (highlights && Array.isArray(hero.highlights)) {
+        highlights.replaceChildren();
 
         hero.highlights.forEach((highlight) => {
-            highlights.insertAdjacentHTML(
-                "beforeend",
-                `
-                    <div class="flex items-center gap-2">
-                        <i
-                            class="bi bi-check-circle-fill text-[var(--color-primary)]"
-                            aria-hidden="true"
-                        ></i>
+            const item = document.createElement("div");
 
-                        <span>${highlight}</span>
-                    </div>
-                `,
-            );
+            item.className = "flex items-center gap-2";
+
+            const icon = document.createElement("i");
+
+            icon.className = "bi bi-check-circle-fill text-[var(--color-primary)]";
+
+            icon.setAttribute("aria-hidden", "true");
+
+            const text = document.createElement("span");
+
+            text.textContent = highlight;
+
+            item.append(icon, text);
+
+            highlights.appendChild(item);
         });
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Hero Card
+    |--------------------------------------------------------------------------
+    */
+
+    if (cardTitle && hero.card) {
+        cardTitle.textContent = hero.card.title;
+    }
+
+    if (cardDescription && hero.card) {
+        cardDescription.textContent = hero.card.description;
+    }
 }
+
+/*
+|--------------------------------------------------------------------------
+| START WEBSITE
+|--------------------------------------------------------------------------
+*/
 
 renderWebsite();
