@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* =========================================================
+   EP WEBCRAFT — GLOBAL THEME SYSTEM
+   ========================================================= */
+
+:root {
+    /* -----------------------------------------------------
+       COLORS
+       Change these values for each customer.
+       ----------------------------------------------------- */
+
+    --color-primary: #2f7d32;
+    --color-secondary: #f5e8c7;
+    --color-accent: #d977a8;
+
+    --color-background: #fffdf8;
+    --color-surface: #ffffff;
+    --color-surface-soft: #f8f5ec;
+
+    --color-text: #171717;
+    --color-text-muted: #737373;
+
+    --color-border: #e5e5e5;
+    --color-glow: #d977a8;
+
+    /* -----------------------------------------------------
+       TYPOGRAPHY
+       ----------------------------------------------------- */
+
+    --font-heading: "Inter", sans-serif;
+    --font-body: "Inter", sans-serif;
+
+    /* -----------------------------------------------------
+       BORDER RADIUS
+       ----------------------------------------------------- */
+
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+
+    /* -----------------------------------------------------
+       SHADOWS
+       ----------------------------------------------------- */
+
+    --shadow-sm: 0 2px 8px rgb(0 0 0 / 0.06);
+    --shadow-md: 0 10px 30px rgb(0 0 0 / 0.08);
+    --shadow-lg: 0 20px 50px rgb(0 0 0 / 0.12);
+
+    /* -----------------------------------------------------
+       TRANSITIONS
+       ----------------------------------------------------- */
+
+    --transition-fast: 150ms ease;
+    --transition-base: 300ms ease;
+    --transition-slow: 500ms ease;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+
+    background: var(--color-background);
+    color: var(--color-text);
+
+    font-family: var(--font-body);
+    line-height: 1.6;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    font-family: var(--font-heading);
+    line-height: 1.15;
+}
+
+p {
+    margin: 0;
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* =========================================================
+   IMAGES
+   ========================================================= */
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+    background: var(--color-primary);
+    color: var(--color-surface);
+}
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+}

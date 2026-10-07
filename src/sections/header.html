@@ -1,0 +1,109 @@
+<!-- =====================================================
+     EP WEBCRAFT — HEADER SECTION
+     ===================================================== -->
+
+<header
+    class="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-background)]/90 backdrop-blur-md">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+
+        <!-- =================================================
+             BRAND
+             ================================================= -->
+
+        <a href="#" class="shrink-0" aria-label="Go to homepage">
+            <span class="text-xl font-bold tracking-tight text-[var(--color-text)]" data-site-name>
+                Business Name
+            </span>
+        </a>
+
+
+        <!-- =================================================
+             DESKTOP NAVIGATION
+             ================================================= -->
+
+        <nav class="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
+            <a href="#about"
+                class="text-sm font-medium text-[var(--color-text-muted)] transition-colors duration-300 hover:text-[var(--color-primary)]">
+                About
+            </a>
+
+            <a href="#services"
+                class="text-sm font-medium text-[var(--color-text-muted)] transition-colors duration-300 hover:text-[var(--color-primary)]">
+                Services
+            </a>
+
+            <a href="#gallery"
+                class="text-sm font-medium text-[var(--color-text-muted)] transition-colors duration-300 hover:text-[var(--color-primary)]">
+                Gallery
+            </a>
+
+            <a href="#contact"
+                class="text-sm font-medium text-[var(--color-text-muted)] transition-colors duration-300 hover:text-[var(--color-primary)]">
+                Contact
+            </a>
+        </nav>
+
+
+        <!-- =================================================
+             DESKTOP CTA
+             ================================================= -->
+
+        <a href="#contact"
+            class="hidden items-center justify-center gap-2 rounded-[var(--radius-md)] bg-[var(--color-primary)] px-5 py-2.5 text-sm font-semibold text-[var(--color-surface)] shadow-[var(--shadow-sm)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] md:inline-flex">
+            <span>Get Started</span>
+
+            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+        </a>
+
+
+        <!-- =================================================
+             MOBILE MENU BUTTON
+             ================================================= -->
+
+        <button type="button"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] text-[var(--color-text)] transition-colors duration-300 hover:bg-[var(--color-surface-soft)] md:hidden"
+            aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-navigation" data-menu-toggle>
+            <i class="bi bi-list text-2xl" aria-hidden="true"></i>
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         MOBILE NAVIGATION
+         ================================================= -->
+
+    <div id="mobile-navigation"
+        class="hidden border-t border-[var(--color-border)] bg-[var(--color-background)] md:hidden"
+        data-mobile-navigation>
+        <nav class="mx-auto flex max-w-7xl flex-col px-4 py-4 sm:px-6" aria-label="Mobile navigation">
+            <a href="#about"
+                class="border-b border-[var(--color-border)] py-3 text-sm font-medium text-[var(--color-text-muted)] transition-colors duration-300 hover:text-[var(--color-primary)]">
+                About
+            </a>
+
+            <a href="#services"
+                class="border-b border-[var(--color-border)] py-3 text-sm font-medium text-[var(--color-text-muted)] transition-colors duration-300 hover:text-[var(--color-primary)]">
+                Services
+            </a>
+
+            <a href="#gallery"
+                class="border-b border-[var(--color-border)] py-3 text-sm font-medium text-[var(--color-text-muted)] transition-colors duration-300 hover:text-[var(--color-primary)]">
+                Gallery
+            </a>
+
+            <a href="#contact"
+                class="py-3 text-sm font-medium text-[var(--color-text-muted)] transition-colors duration-300 hover:text-[var(--color-primary)]">
+                Contact
+            </a>
+
+            <a href="#contact"
+                class="mt-4 inline-flex items-center justify-center gap-2 rounded-[var(--radius-md)] bg-[var(--color-primary)] px-5 py-3 text-sm font-semibold text-[var(--color-surface)]">
+                <span>Get Started</span>
+
+                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </a>
+        </nav>
+    </div>
+
+</header>
