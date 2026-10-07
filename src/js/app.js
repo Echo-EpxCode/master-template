@@ -131,6 +131,28 @@ function updateHeroContent() {
 
     const cardDescription = document.querySelector("[data-hero-card-description]");
 
+    const heroImage = document.querySelector("[data-hero-image]");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Hero Image
+    |--------------------------------------------------------------------------
+    */
+
+    if (heroImage && hero.image && hero.image.src) {
+        heroImage.innerHTML = "";
+
+        const image = document.createElement("img");
+
+        image.src = hero.image.src;
+
+        image.alt = hero.image.alt || "";
+
+        image.className = "h-full w-full object-cover";
+
+        heroImage.appendChild(image);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Hero Eyebrow

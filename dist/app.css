@@ -445,6 +445,9 @@
   .bg-\[var\(--color-surface-soft\)\] {
     background-color: var(--color-surface-soft);
   }
+  .object-cover {
+    object-fit: cover;
+  }
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }

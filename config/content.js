@@ -1,6 +1,6 @@
 const content = {
     hero: {
-        eyebrow: "Welcome to Our Business",
+        eyebrow: "Welcome sa among testing",
 
         title: {
             main: "A Better Experience,",
@@ -23,8 +23,8 @@ const content = {
         highlights: ["Quality Service", "Customer Focused"],
 
         image: {
-            src: "",
-            alt: "",
+            src: "./assets/images/hero.jpeg",
+            alt: "Sample pic sa Terra Mango",
         },
 
         card: {
