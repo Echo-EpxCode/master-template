@@ -74,6 +74,8 @@ function updateHeroContent() {
 
     const secondaryLabel = document.querySelector("[data-hero-secondary-label]");
 
+    const highlights = document.querySelector("[data-hero-highlights]");
+
     if (eyebrow) {
         eyebrow.textContent = hero.eyebrow;
     }
@@ -104,6 +106,26 @@ function updateHeroContent() {
 
     if (secondaryLabel) {
         secondaryLabel.textContent = hero.secondaryAction.label;
+    }
+
+    if (highlights) {
+        highlights.innerHTML = "";
+
+        hero.highlights.forEach((highlight) => {
+            highlights.insertAdjacentHTML(
+                "beforeend",
+                `
+                    <div class="flex items-center gap-2">
+                        <i
+                            class="bi bi-check-circle-fill text-[var(--color-primary)]"
+                            aria-hidden="true"
+                        ></i>
+
+                        <span>${highlight}</span>
+                    </div>
+                `,
+            );
+        });
     }
 }
 
