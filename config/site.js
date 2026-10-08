@@ -3,7 +3,7 @@ const site = {
     // BUSINESS INFORMATION
     // =====================================================
 
-    name: "Christianitea Sample",
+    name: "Sample",
 
     tagline: "Your business tagline goes here.",
 

@@ -88,6 +88,8 @@ function updateSiteInformation() {
 
 function updateContent() {
     updateHeroContent();
+    updateAboutContent();
+    updateServicesContent();
 }
 
 /*
@@ -260,6 +262,293 @@ function updateHeroContent() {
     }
 }
 
+/*
+|--------------------------------------------------------------------------
+| ABOUT CONTENT
+|--------------------------------------------------------------------------
+*/
+function updateAboutContent() {
+    const about = content.about;
+
+    if (!about) {
+        return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | About Elements
+    |--------------------------------------------------------------------------
+    */
+
+    const eyebrow = document.querySelector("[data-about-eyebrow]");
+
+    const titleMain = document.querySelector("[data-about-title-main]");
+
+    const titleHighlight = document.querySelector("[data-about-title-highlight]");
+
+    const description = document.querySelector("[data-about-description]");
+
+    const highlights = document.querySelector("[data-about-highlights]");
+
+    const cardLabel = document.querySelector("[data-about-card-label]");
+
+    const cardTitle = document.querySelector("[data-about-card-title]");
+
+    const cardDescription = document.querySelector("[data-about-card-description]");
+
+    const cardIcon = document.querySelector("[data-about-card-icon]");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Eyebrow
+    |--------------------------------------------------------------------------
+    */
+
+    if (eyebrow) {
+        eyebrow.textContent = about.eyebrow;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Title
+    |--------------------------------------------------------------------------
+    */
+
+    if (titleMain && about.title) {
+        titleMain.textContent = about.title.main;
+    }
+
+    if (titleHighlight && about.title) {
+        titleHighlight.textContent = about.title.highlight;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Description
+    |--------------------------------------------------------------------------
+    */
+
+    if (description) {
+        description.textContent = about.description;
+    }
+
+    /*
+|--------------------------------------------------------------------------
+| Highlights
+|--------------------------------------------------------------------------
+*/
+
+    if (highlights && Array.isArray(about.highlights)) {
+        highlights.replaceChildren();
+
+        about.highlights.forEach((highlight) => {
+            const item = document.createElement("div");
+
+            item.className =
+                "rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-[var(--shadow-sm)]";
+
+            const iconWrapper = document.createElement("div");
+
+            iconWrapper.className =
+                "mb-4 flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary)]/10 text-[var(--color-primary)]";
+
+            const icon = document.createElement("i");
+
+            icon.className = `bi ${highlight.icon || "bi-check-lg"}`;
+
+            icon.setAttribute("aria-hidden", "true");
+
+            iconWrapper.appendChild(icon);
+
+            const text = document.createElement("p");
+
+            text.className = "font-semibold text-[var(--color-text)]";
+
+            text.textContent = highlight.text;
+
+            item.append(iconWrapper, text);
+
+            highlights.appendChild(item);
+        });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Card
+    |--------------------------------------------------------------------------
+    */
+
+    if (cardLabel && about.card) {
+        cardLabel.textContent = about.card.label;
+    }
+
+    if (cardTitle && about.card) {
+        cardTitle.textContent = about.card.title;
+    }
+
+    if (cardDescription && about.card) {
+        cardDescription.textContent = about.card.description;
+    }
+
+    if (cardIcon && about.card && about.card.icon) {
+        cardIcon.className = `bi ${about.card.icon} text-2xl`;
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| SERVICES CONTENT
+|--------------------------------------------------------------------------
+*/
+function updateServicesContent() {
+    const services = content.services;
+
+    if (!services) {
+        return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Services Elements
+    |--------------------------------------------------------------------------
+    */
+
+    const eyebrow = document.querySelector("[data-services-eyebrow]");
+
+    const titleMain = document.querySelector("[data-services-title-main]");
+
+    const titleHighlight = document.querySelector("[data-services-title-highlight]");
+
+    const description = document.querySelector("[data-services-description]");
+
+    const grid = document.querySelector("[data-services-grid]");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Eyebrow
+    |--------------------------------------------------------------------------
+    */
+
+    if (eyebrow) {
+        eyebrow.textContent = services.eyebrow;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Title
+    |--------------------------------------------------------------------------
+    */
+
+    if (titleMain && services.title) {
+        titleMain.textContent = services.title.main;
+    }
+
+    if (titleHighlight && services.title) {
+        titleHighlight.textContent = services.title.highlight;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Description
+    |--------------------------------------------------------------------------
+    */
+
+    if (description) {
+        description.textContent = services.description;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Service Cards
+    |--------------------------------------------------------------------------
+    */
+
+    if (grid && Array.isArray(services.items)) {
+        grid.replaceChildren();
+
+        services.items.forEach((service) => {
+            const card = document.createElement("article");
+
+            card.className =
+                "group rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)] sm:p-7";
+
+            /*
+                |--------------------------------------------------------------------------
+                | Icon
+                |--------------------------------------------------------------------------
+                */
+
+            const iconWrapper = document.createElement("div");
+
+            iconWrapper.className =
+                "mb-6 flex h-12 w-12 items-center justify-center rounded-[var(--radius-lg)] bg-[var(--color-primary)]/10 text-[var(--color-primary)] transition-colors duration-300 group-hover:bg-[var(--color-primary)] group-hover:text-[var(--color-surface)]";
+
+            const icon = document.createElement("i");
+
+            icon.className = `bi ${service.icon || "bi-check-circle"}`;
+
+            icon.setAttribute("aria-hidden", "true");
+
+            iconWrapper.appendChild(icon);
+
+            /*
+                |--------------------------------------------------------------------------
+                | Title
+                |--------------------------------------------------------------------------
+                */
+
+            const title = document.createElement("h3");
+
+            title.className = "text-xl font-bold tracking-tight text-[var(--color-text)]";
+
+            title.textContent = service.title;
+
+            /*
+                |--------------------------------------------------------------------------
+                | Description
+                |--------------------------------------------------------------------------
+                */
+
+            const text = document.createElement("p");
+
+            text.className = "mt-3 text-base leading-7 text-[var(--color-text-muted)]";
+
+            text.textContent = service.description;
+
+            /*
+                |--------------------------------------------------------------------------
+                | Arrow
+                |--------------------------------------------------------------------------
+                */
+
+            const arrow = document.createElement("div");
+
+            arrow.className = "mt-6 flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)]";
+
+            const arrowText = document.createElement("span");
+
+            arrowText.textContent = "Learn More";
+
+            const arrowIcon = document.createElement("i");
+
+            arrowIcon.className = "bi bi-arrow-right transition-transform duration-300 group-hover:translate-x-1";
+
+            arrowIcon.setAttribute("aria-hidden", "true");
+
+            arrow.append(arrowText, arrowIcon);
+
+            /*
+                |--------------------------------------------------------------------------
+                | Assemble Card
+                |--------------------------------------------------------------------------
+                */
+
+            card.append(iconWrapper, title, text, arrow);
+
+            grid.appendChild(card);
+        });
+    }
+}
 /*
 |--------------------------------------------------------------------------
 | START WEBSITE

@@ -11,12 +11,12 @@ const sections = [
 
     {
         name: "about",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "services",
-        enabled: false,
+        enabled: true,
     },
 
     {
