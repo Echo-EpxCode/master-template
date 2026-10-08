@@ -31,7 +31,7 @@ const sections = [
 
     {
         name: "menu",
-        enabled: false,
+        enabled: true,
     },
 
     {

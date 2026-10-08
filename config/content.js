@@ -187,6 +187,78 @@ const content = {
             },
         ],
     },
+    menu: {
+        eyebrow: "Our Menu",
+
+        title: {
+            main: "Something",
+            highlight: "For Everyone.",
+        },
+
+        description: "Explore our menu and find your next favorite.",
+
+        categories: [
+            {
+                name: "Signature Drinks",
+
+                items: [
+                    {
+                        name: "Mango Graham Shake",
+                        description: "Creamy mango shake blended with graham goodness.",
+                        price: "₱149",
+                    },
+
+                    {
+                        name: "Strawberry Cream",
+                        description: "A refreshing strawberry drink with a smooth creamy finish.",
+                        price: "₱159",
+                    },
+
+                    {
+                        name: "Classic Milk Tea",
+                        description: "A rich and creamy milk tea made for everyday enjoyment.",
+                        price: "₱129",
+                    },
+                ],
+            },
+
+            {
+                name: "Snacks",
+
+                items: [
+                    {
+                        name: "Signature Fries",
+                        description: "Crispy golden fries served with our signature flavor.",
+                        price: "₱99",
+                    },
+
+                    {
+                        name: "Cheesy Bites",
+                        description: "Crispy bites filled with delicious cheesy goodness.",
+                        price: "₱119",
+                    },
+                ],
+            },
+
+            {
+                name: "Desserts",
+
+                items: [
+                    {
+                        name: "Mango Graham Cup",
+                        description: "Sweet mango and creamy graham layers served chilled.",
+                        price: "₱129",
+                    },
+
+                    {
+                        name: "Chocolate Brownie",
+                        description: "Rich and soft chocolate brownie for a satisfying treat.",
+                        price: "₱109",
+                    },
+                ],
+            },
+        ],
+    },
 };
 
 export default content;

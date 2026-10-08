@@ -92,6 +92,7 @@ function updateContent() {
     updateServicesContent();
     updateFeaturesContent();
     updateProductsContent();
+    updateMenuContent();
 }
 
 /*
@@ -834,7 +835,167 @@ function updateProductsContent() {
         });
     }
 }
+/*
+|--------------------------------------------------------------------------
+| PRODUCT CONTENT
+|--------------------------------------------------------------------------
+*/
+function updateMenuContent() {
+    const menu = content.menu;
 
+    if (!menu) {
+        return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Menu Elements
+    |--------------------------------------------------------------------------
+    */
+
+    const eyebrow = document.querySelector("[data-menu-eyebrow]");
+
+    const titleMain = document.querySelector("[data-menu-title-main]");
+
+    const titleHighlight = document.querySelector("[data-menu-title-highlight]");
+
+    const description = document.querySelector("[data-menu-description]");
+
+    const container = document.querySelector("[data-menu-container]");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Eyebrow
+    |--------------------------------------------------------------------------
+    */
+
+    if (eyebrow) {
+        eyebrow.textContent = menu.eyebrow;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Title
+    |--------------------------------------------------------------------------
+    */
+
+    if (titleMain && menu.title) {
+        titleMain.textContent = menu.title.main;
+    }
+
+    if (titleHighlight && menu.title) {
+        titleHighlight.textContent = menu.title.highlight;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Description
+    |--------------------------------------------------------------------------
+    */
+
+    if (description) {
+        description.textContent = menu.description;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Menu Categories
+    |--------------------------------------------------------------------------
+    */
+
+    if (container && Array.isArray(menu.categories)) {
+        container.replaceChildren();
+
+        menu.categories.forEach((category) => {
+            const categoryWrapper = document.createElement("div");
+
+            categoryWrapper.className =
+                "overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-sm)]";
+
+            /*
+                |--------------------------------------------------------------------------
+                | Category Header
+                |--------------------------------------------------------------------------
+                */
+
+            const categoryHeader = document.createElement("div");
+
+            categoryHeader.className =
+                "border-b border-[var(--color-border)] bg-[var(--color-surface-soft)] px-6 py-5 sm:px-7";
+
+            const categoryTitle = document.createElement("h3");
+
+            categoryTitle.className = "text-xl font-bold tracking-tight text-[var(--color-text)] sm:text-2xl";
+
+            categoryTitle.textContent = category.name;
+
+            categoryHeader.appendChild(categoryTitle);
+
+            /*
+                |--------------------------------------------------------------------------
+                | Menu Items
+                |--------------------------------------------------------------------------
+                */
+
+            const itemsWrapper = document.createElement("div");
+
+            itemsWrapper.className = "divide-y divide-[var(--color-border)]";
+
+            if (Array.isArray(category.items)) {
+                category.items.forEach((item) => {
+                    const menuItem = document.createElement("div");
+
+                    menuItem.className =
+                        "flex items-start justify-between gap-6 px-6 py-5 transition-colors duration-300 hover:bg-[var(--color-surface-soft)] sm:px-7";
+
+                    /*
+                            |--------------------------------------------------------------------------
+                            | Item Information
+                            |--------------------------------------------------------------------------
+                            */
+
+                    const itemInfo = document.createElement("div");
+
+                    itemInfo.className = "min-w-0";
+
+                    const itemName = document.createElement("h4");
+
+                    itemName.className = "font-semibold text-[var(--color-text)]";
+
+                    itemName.textContent = item.name;
+
+                    const itemDescription = document.createElement("p");
+
+                    itemDescription.className = "mt-1 max-w-2xl text-sm leading-6 text-[var(--color-text-muted)]";
+
+                    itemDescription.textContent = item.description || "";
+
+                    itemInfo.append(itemName, itemDescription);
+
+                    /*
+                            |--------------------------------------------------------------------------
+                            | Price
+                            |--------------------------------------------------------------------------
+                            */
+
+                    const price = document.createElement("span");
+
+                    price.className = "shrink-0 font-bold text-[var(--color-primary)]";
+
+                    price.textContent = item.price || "";
+
+                    menuItem.append(itemInfo, price);
+
+                    itemsWrapper.appendChild(menuItem);
+                });
+            }
+
+            categoryWrapper.append(categoryHeader, itemsWrapper);
+
+            container.appendChild(categoryWrapper);
+        });
+    }
+}
 /*
 |--------------------------------------------------------------------------
 | START WEBSITE
