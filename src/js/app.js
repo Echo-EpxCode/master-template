@@ -90,6 +90,8 @@ function updateContent() {
     updateHeroContent();
     updateAboutContent();
     updateServicesContent();
+    updateFeaturesContent();
+    updateProductsContent();
 }
 
 /*
@@ -549,6 +551,290 @@ function updateServicesContent() {
         });
     }
 }
+/*
+|--------------------------------------------------------------------------
+| FEATURES CONTENT
+|--------------------------------------------------------------------------
+*/
+function updateFeaturesContent() {
+    const features = content.features;
+
+    if (!features) {
+        return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Features Elements
+    |--------------------------------------------------------------------------
+    */
+
+    const eyebrow = document.querySelector("[data-features-eyebrow]");
+
+    const titleMain = document.querySelector("[data-features-title-main]");
+
+    const titleHighlight = document.querySelector("[data-features-title-highlight]");
+
+    const description = document.querySelector("[data-features-description]");
+
+    const grid = document.querySelector("[data-features-grid]");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Eyebrow
+    |--------------------------------------------------------------------------
+    */
+
+    if (eyebrow) {
+        eyebrow.textContent = features.eyebrow;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Title
+    |--------------------------------------------------------------------------
+    */
+
+    if (titleMain && features.title) {
+        titleMain.textContent = features.title.main;
+    }
+
+    if (titleHighlight && features.title) {
+        titleHighlight.textContent = features.title.highlight;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Description
+    |--------------------------------------------------------------------------
+    */
+
+    if (description) {
+        description.textContent = features.description;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Feature Cards
+    |--------------------------------------------------------------------------
+    */
+
+    if (grid && Array.isArray(features.items)) {
+        grid.replaceChildren();
+
+        features.items.forEach((feature) => {
+            const card = document.createElement("article");
+
+            card.className =
+                "group rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)] sm:p-7";
+
+            const iconWrapper = document.createElement("div");
+
+            iconWrapper.className =
+                "mb-6 flex h-12 w-12 items-center justify-center rounded-[var(--radius-lg)] bg-[var(--color-primary)]/10 text-[var(--color-primary)] transition-colors duration-300 group-hover:bg-[var(--color-primary)] group-hover:text-[var(--color-surface)]";
+
+            const icon = document.createElement("i");
+
+            icon.className = `bi ${feature.icon || "bi-check-circle"}`;
+
+            icon.setAttribute("aria-hidden", "true");
+
+            iconWrapper.appendChild(icon);
+
+            const title = document.createElement("h3");
+
+            title.className = "text-xl font-bold tracking-tight text-[var(--color-text)]";
+
+            title.textContent = feature.title;
+
+            const text = document.createElement("p");
+
+            text.className = "mt-3 text-base leading-7 text-[var(--color-text-muted)]";
+
+            text.textContent = feature.description;
+
+            card.append(iconWrapper, title, text);
+
+            grid.appendChild(card);
+        });
+    }
+}
+/*
+|--------------------------------------------------------------------------
+| PRODUCT CONTENT
+|--------------------------------------------------------------------------
+*/
+function updateProductsContent() {
+    const products = content.products;
+
+    if (!products) {
+        return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Products Elements
+    |--------------------------------------------------------------------------
+    */
+
+    const eyebrow = document.querySelector("[data-products-eyebrow]");
+
+    const titleMain = document.querySelector("[data-products-title-main]");
+
+    const titleHighlight = document.querySelector("[data-products-title-highlight]");
+
+    const description = document.querySelector("[data-products-description]");
+
+    const grid = document.querySelector("[data-products-grid]");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Eyebrow
+    |--------------------------------------------------------------------------
+    */
+
+    if (eyebrow) {
+        eyebrow.textContent = products.eyebrow;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Title
+    |--------------------------------------------------------------------------
+    */
+
+    if (titleMain && products.title) {
+        titleMain.textContent = products.title.main;
+    }
+
+    if (titleHighlight && products.title) {
+        titleHighlight.textContent = products.title.highlight;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Description
+    |--------------------------------------------------------------------------
+    */
+
+    if (description) {
+        description.textContent = products.description;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Product Cards
+    |--------------------------------------------------------------------------
+    */
+
+    if (grid && Array.isArray(products.items)) {
+        grid.replaceChildren();
+
+        products.items.forEach((product) => {
+            const card = document.createElement("article");
+
+            card.className =
+                "group overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]";
+
+            /*
+                |--------------------------------------------------------------------------
+                | Product Image
+                |--------------------------------------------------------------------------
+                */
+
+            const imageWrapper = document.createElement("div");
+
+            imageWrapper.className =
+                "relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-[var(--color-surface-soft)]";
+
+            if (product.image) {
+                const image = document.createElement("img");
+
+                image.src = product.image;
+
+                image.alt = product.title || "";
+
+                image.className = "h-full w-full object-cover transition-transform duration-500 group-hover:scale-105";
+
+                imageWrapper.appendChild(image);
+            } else {
+                const placeholder = document.createElement("div");
+
+                placeholder.className = "flex h-full w-full flex-col items-center justify-center";
+
+                const icon = document.createElement("i");
+
+                icon.className = `bi ${product.icon || "bi-image"} text-5xl text-[var(--color-primary)]`;
+
+                icon.setAttribute("aria-hidden", "true");
+
+                const placeholderText = document.createElement("span");
+
+                placeholderText.className = "mt-3 text-sm font-medium text-[var(--color-text-muted)]";
+
+                placeholderText.textContent = "Product Image";
+
+                placeholder.append(icon, placeholderText);
+
+                imageWrapper.appendChild(placeholder);
+            }
+
+            /*
+                |--------------------------------------------------------------------------
+                | Product Content
+                |--------------------------------------------------------------------------
+                */
+
+            const contentWrapper = document.createElement("div");
+
+            contentWrapper.className = "p-6";
+
+            const title = document.createElement("h3");
+
+            title.className = "text-xl font-bold tracking-tight text-[var(--color-text)]";
+
+            title.textContent = product.title;
+
+            const text = document.createElement("p");
+
+            text.className = "mt-3 text-base leading-7 text-[var(--color-text-muted)]";
+
+            text.textContent = product.description;
+
+            /*
+                |--------------------------------------------------------------------------
+                | Price
+                |--------------------------------------------------------------------------
+                */
+
+            const footer = document.createElement("div");
+
+            footer.className = "mt-6 flex items-center justify-between gap-4";
+
+            const price = document.createElement("span");
+
+            price.className = "text-lg font-bold text-[var(--color-primary)]";
+
+            price.textContent = product.price || "";
+
+            const arrow = document.createElement("i");
+
+            arrow.className =
+                "bi bi-arrow-right text-lg text-[var(--color-primary)] transition-transform duration-300 group-hover:translate-x-1";
+
+            arrow.setAttribute("aria-hidden", "true");
+
+            footer.append(price, arrow);
+
+            contentWrapper.append(title, text, footer);
+
+            card.append(imageWrapper, contentWrapper);
+
+            grid.appendChild(card);
+        });
+    }
+}
+
 /*
 |--------------------------------------------------------------------------
 | START WEBSITE
