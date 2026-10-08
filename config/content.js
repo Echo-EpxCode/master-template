@@ -315,6 +315,64 @@ const content = {
             },
         ],
     },
+    process: {
+        eyebrow: "How It Works",
+
+        title: {
+            main: "Simple From",
+            highlight: "Start To Finish.",
+        },
+
+        description: "A simple process designed to make every step clear and straightforward.",
+
+        steps: [
+            {
+                number: "01",
+
+                icon: "bi-chat-dots",
+
+                title: "Get In Touch",
+
+                description: "Tell us about your needs, goals, and what you want to accomplish.",
+            },
+
+            {
+                number: "02",
+
+                icon: "bi-lightbulb",
+
+                title: "Plan & Design",
+
+                description: "We create a clear plan and develop a solution around your requirements.",
+            },
+
+            {
+                number: "03",
+
+                icon: "bi-code-slash",
+
+                title: "Build & Refine",
+
+                description: "The solution is developed, tested, and refined to meet expectations.",
+            },
+
+            {
+                number: "04",
+
+                icon: "bi-check-circle",
+
+                title: "Launch",
+
+                description: "Everything is finalized and prepared for your customers.",
+            },
+            {
+                number: "05",
+                icon: "bi-heart",
+                title: "Ongoing Support",
+                description: "We remain available to help keep everything running smoothly.",
+            },
+        ],
+    },
 };
 
 export default content;

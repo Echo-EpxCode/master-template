@@ -94,6 +94,7 @@ function updateContent() {
     updateProductsContent();
     updateMenuContent();
     updatePortfolioContent();
+    updateProcessContent();
 }
 
 /*
@@ -1193,7 +1194,163 @@ function updatePortfolioContent() {
         });
     }
 }
+/*
+|--------------------------------------------------------------------------
+| PROCESS CONTENT
+|--------------------------------------------------------------------------
+*/
+function updateProcessContent() {
+    const process = content.process;
 
+    if (!process) {
+        return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Process Elements
+    |--------------------------------------------------------------------------
+    */
+
+    const eyebrow = document.querySelector("[data-process-eyebrow]");
+
+    const titleMain = document.querySelector("[data-process-title-main]");
+
+    const titleHighlight = document.querySelector("[data-process-title-highlight]");
+
+    const description = document.querySelector("[data-process-description]");
+
+    const grid = document.querySelector("[data-process-grid]");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Eyebrow
+    |--------------------------------------------------------------------------
+    */
+
+    if (eyebrow) {
+        eyebrow.textContent = process.eyebrow;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Title
+    |--------------------------------------------------------------------------
+    */
+
+    if (titleMain && process.title) {
+        titleMain.textContent = process.title.main;
+    }
+
+    if (titleHighlight && process.title) {
+        titleHighlight.textContent = process.title.highlight;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Description
+    |--------------------------------------------------------------------------
+    */
+
+    if (description) {
+        description.textContent = process.description;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Process Steps
+    |--------------------------------------------------------------------------
+    */
+
+    if (grid && Array.isArray(process.steps)) {
+        grid.replaceChildren();
+
+        const stepsWrapper = document.createElement("div");
+
+        stepsWrapper.className = "grid gap-8 md:grid-cols-2 lg:grid-cols-4";
+
+        process.steps.forEach((step, index) => {
+            const card = document.createElement("article");
+
+            card.className = "group relative";
+
+            /*
+                |--------------------------------------------------------------------------
+                | Connector
+                |--------------------------------------------------------------------------
+                */
+
+            if (index < process.steps.length - 1) {
+                const connector = document.createElement("div");
+
+                connector.className =
+                    "absolute left-[calc(50%+3rem)] right-[calc(-50%+3rem)] top-7 hidden h-px bg-[var(--color-border)] lg:block";
+
+                connector.setAttribute("aria-hidden", "true");
+
+                card.appendChild(connector);
+            }
+
+            /*
+                |--------------------------------------------------------------------------
+                | Number + Icon
+                |--------------------------------------------------------------------------
+                */
+
+            const visual = document.createElement("div");
+
+            visual.className =
+                "relative z-10 mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-sm)] transition-all duration-300 group-hover:border-[var(--color-primary)] group-hover:bg-[var(--color-primary)]";
+
+            const icon = document.createElement("i");
+
+            icon.className = `bi ${step.icon || "bi-check-circle"} text-2xl text-[var(--color-primary)] transition-colors duration-300 group-hover:text-[var(--color-surface)]`;
+
+            icon.setAttribute("aria-hidden", "true");
+
+            visual.appendChild(icon);
+
+            /*
+                |--------------------------------------------------------------------------
+                | Step Number
+                |--------------------------------------------------------------------------
+                */
+
+            const number = document.createElement("span");
+
+            number.className =
+                "absolute -right-2 -top-2 flex h-7 min-w-7 items-center justify-center rounded-full bg-[var(--color-primary)] px-1.5 text-xs font-bold text-[var(--color-surface)]";
+
+            number.textContent = step.number || String(index + 1).padStart(2, "0");
+
+            visual.appendChild(number);
+
+            /*
+                |--------------------------------------------------------------------------
+                | Content
+                |--------------------------------------------------------------------------
+                */
+
+            const title = document.createElement("h3");
+
+            title.className = "mt-6 text-center text-xl font-bold tracking-tight text-[var(--color-text)]";
+
+            title.textContent = step.title;
+
+            const text = document.createElement("p");
+
+            text.className = "mx-auto mt-3 max-w-xs text-center text-base leading-7 text-[var(--color-text-muted)]";
+
+            text.textContent = step.description;
+
+            card.append(visual, title, text);
+
+            stepsWrapper.appendChild(card);
+        });
+
+        grid.appendChild(stepsWrapper);
+    }
+}
 /*
 |--------------------------------------------------------------------------
 | START WEBSITE

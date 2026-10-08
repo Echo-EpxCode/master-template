@@ -41,7 +41,7 @@ const sections = [
 
     {
         name: "process",
-        enabled: false,
+        enabled: true,
     },
 
     {
