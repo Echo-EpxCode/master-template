@@ -259,6 +259,62 @@ const content = {
             },
         ],
     },
+    portfolio: {
+        eyebrow: "Our Work",
+
+        title: {
+            main: "Work We're",
+            highlight: "Proud Of.",
+        },
+
+        description: "Explore some of our recent work and completed projects.",
+
+        items: [
+            {
+                image: "",
+
+                category: "Laravel",
+
+                title: "Claims Tracker",
+
+                description: "A modern responsive website designed to showcase a growing business.",
+
+                link: "#",
+            },
+
+            {
+                image: "",
+
+                category: "E-Commerce",
+
+                title: "Online Store",
+
+                description: "A clean shopping experience designed to help customers discover and purchase products.",
+
+                link: "#",
+            },
+
+            {
+                image: "",
+
+                category: "Branding",
+
+                title: "Business Identity",
+
+                description: "A complete visual presentation created to establish a consistent brand identity.",
+
+                link: "#",
+            },
+            {
+                image: "",
+                category: "Web Application",
+                title: "Job Application Tracker",
+                description:
+                    "A practical application management system designed to organize job applications and track their progress.",
+                link: "#",
+            },
+        ],
+    },
 };
 
 export default content;

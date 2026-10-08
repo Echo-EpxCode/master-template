@@ -36,7 +36,7 @@ const sections = [
 
     {
         name: "portfolio",
-        enabled: false,
+        enabled: true,
     },
 
     {

@@ -93,6 +93,7 @@ function updateContent() {
     updateFeaturesContent();
     updateProductsContent();
     updateMenuContent();
+    updatePortfolioContent();
 }
 
 /*
@@ -837,7 +838,7 @@ function updateProductsContent() {
 }
 /*
 |--------------------------------------------------------------------------
-| PRODUCT CONTENT
+| MENU CONTENT
 |--------------------------------------------------------------------------
 */
 function updateMenuContent() {
@@ -996,6 +997,203 @@ function updateMenuContent() {
         });
     }
 }
+/*
+|--------------------------------------------------------------------------
+| PORTFOLIO CONTENT
+|--------------------------------------------------------------------------
+*/
+function updatePortfolioContent() {
+    const portfolio = content.portfolio;
+
+    if (!portfolio) {
+        return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Portfolio Elements
+    |--------------------------------------------------------------------------
+    */
+
+    const eyebrow = document.querySelector("[data-portfolio-eyebrow]");
+
+    const titleMain = document.querySelector("[data-portfolio-title-main]");
+
+    const titleHighlight = document.querySelector("[data-portfolio-title-highlight]");
+
+    const description = document.querySelector("[data-portfolio-description]");
+
+    const grid = document.querySelector("[data-portfolio-grid]");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Eyebrow
+    |--------------------------------------------------------------------------
+    */
+
+    if (eyebrow) {
+        eyebrow.textContent = portfolio.eyebrow;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Title
+    |--------------------------------------------------------------------------
+    */
+
+    if (titleMain && portfolio.title) {
+        titleMain.textContent = portfolio.title.main;
+    }
+
+    if (titleHighlight && portfolio.title) {
+        titleHighlight.textContent = portfolio.title.highlight;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Description
+    |--------------------------------------------------------------------------
+    */
+
+    if (description) {
+        description.textContent = portfolio.description;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Portfolio Cards
+    |--------------------------------------------------------------------------
+    */
+
+    if (grid && Array.isArray(portfolio.items)) {
+        grid.replaceChildren();
+
+        portfolio.items.forEach((project) => {
+            const card = document.createElement("article");
+
+            card.className =
+                "group overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]";
+
+            /*
+                |--------------------------------------------------------------------------
+                | Project Image
+                |--------------------------------------------------------------------------
+                */
+
+            const imageWrapper = document.createElement("div");
+
+            imageWrapper.className =
+                "relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-[var(--color-surface-soft)]";
+
+            if (project.image) {
+                const image = document.createElement("img");
+
+                image.src = project.image;
+
+                image.alt = project.title || "";
+
+                image.className = "h-full w-full object-cover transition-transform duration-500 group-hover:scale-105";
+
+                imageWrapper.appendChild(image);
+            } else {
+                const placeholder = document.createElement("div");
+
+                placeholder.className = "flex h-full w-full flex-col items-center justify-center";
+
+                const icon = document.createElement("i");
+
+                icon.className = "bi bi-image text-5xl text-[var(--color-primary)]";
+
+                icon.setAttribute("aria-hidden", "true");
+
+                const placeholderText = document.createElement("span");
+
+                placeholderText.className = "mt-3 text-sm font-medium text-[var(--color-text-muted)]";
+
+                placeholderText.textContent = "Project Image";
+
+                placeholder.append(icon, placeholderText);
+
+                imageWrapper.appendChild(placeholder);
+            }
+
+            /*
+                |--------------------------------------------------------------------------
+                | Project Content
+                |--------------------------------------------------------------------------
+                */
+
+            const contentWrapper = document.createElement("div");
+
+            contentWrapper.className = "p-6";
+
+            /*
+                |--------------------------------------------------------------------------
+                | Category
+                |--------------------------------------------------------------------------
+                */
+
+            const category = document.createElement("p");
+
+            category.className = "text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-primary)]";
+
+            category.textContent = project.category || "";
+
+            /*
+                |--------------------------------------------------------------------------
+                | Title
+                |--------------------------------------------------------------------------
+                */
+
+            const title = document.createElement("h3");
+
+            title.className = "mt-2 text-xl font-bold tracking-tight text-[var(--color-text)]";
+
+            title.textContent = project.title;
+
+            /*
+                |--------------------------------------------------------------------------
+                | Description
+                |--------------------------------------------------------------------------
+                */
+
+            const text = document.createElement("p");
+
+            text.className = "mt-3 text-base leading-7 text-[var(--color-text-muted)]";
+
+            text.textContent = project.description || "";
+
+            /*
+                |--------------------------------------------------------------------------
+                | Project Link
+                |--------------------------------------------------------------------------
+                */
+
+            const link = document.createElement("a");
+
+            link.href = project.link || "#";
+
+            link.className = "mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)]";
+
+            link.textContent = "View Project";
+
+            const arrow = document.createElement("i");
+
+            arrow.className = "bi bi-arrow-right transition-transform duration-300 group-hover:translate-x-1";
+
+            arrow.setAttribute("aria-hidden", "true");
+
+            link.appendChild(arrow);
+
+            contentWrapper.append(category, title, text, link);
+
+            card.append(imageWrapper, contentWrapper);
+
+            grid.appendChild(card);
+        });
+    }
+}
+
 /*
 |--------------------------------------------------------------------------
 | START WEBSITE
