@@ -157,8 +157,48 @@ function initializeMobileMenu() {
     });
 
     navigation.querySelectorAll("[data-menu-link]").forEach((link) => {
-        link.addEventListener("click", () => {
+        link.addEventListener("click", (event) => {
+            const href = link.getAttribute("href");
+
+            // Only handle same-page section links.
+            if (!href || !href.startsWith("#") || href === "#") {
+                closeMenu({ restoreFocus: false });
+                return;
+            }
+
+            const target = document.getElementById(href.slice(1));
+
+            if (!target) {
+                closeMenu({ restoreFocus: false });
+                return;
+            }
+
+            event.preventDefault();
+
+            // Highlight the selected navigation item.
+            navigation.querySelectorAll("[data-menu-link]").forEach((item) => {
+                item.classList.remove("is-active");
+                item.removeAttribute("aria-current");
+            });
+
+            link.classList.add("is-active");
+            link.setAttribute("aria-current", "location");
+
+            // Close the drawer without returning focus to the toggle.
             closeMenu({ restoreFocus: false });
+
+            // Update the URL hash.
+            if (window.location.hash !== href) {
+                history.pushState(null, "", href);
+            }
+
+            // Scroll to the selected section.
+            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            target.scrollIntoView({
+                behavior: reducedMotion ? "auto" : "smooth",
+                block: "start",
+            });
         });
     });
 

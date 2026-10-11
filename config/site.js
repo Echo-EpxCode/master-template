@@ -57,8 +57,8 @@ const site = {
                 url: "https://www.facebook.com/",
                 enabled: true,
                 color: "#D70F64",
-                icon: "bi-bag-heart-fill",
-                logo: "",
+                icon: "",
+                logo: "./assets/images/Foodpanda/Foodpanda_.png",
             },
             {
                 id: "grabfood",
@@ -66,8 +66,8 @@ const site = {
                 url: "https://www.facebook.com/",
                 enabled: true,
                 color: "#00A859",
-                icon: "bi-bag-fill",
-                logo: "",
+                icon: "",
+                logo: "./assets/images/Grab/Grab_Logo_6.png",
             },
             {
                 id: "messenger",
