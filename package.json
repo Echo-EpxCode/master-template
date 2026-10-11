@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "tailwindcss -i ./src/css/theme.css -o ./dist/app.css --watch",
-        "build": "tailwindcss -i ./src/css/theme.css -o ./dist/app.css --minify"
+        "dev": "node ./node_modules/@tailwindcss/cli/dist/index.mjs -i ./src/css/theme.css -o ./dist/app.css --watch",
+        "build": "node ./node_modules/@tailwindcss/cli/dist/index.mjs -i ./src/css/theme.css -o ./dist/app.css --minify"
     },
     "keywords": [],
     "author": "",
