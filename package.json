@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "npx @tailwindcss/cli -i ./src/css/theme.css -o ./dist/app.css --watch",
-        "build": "npx @tailwindcss/cli -i ./src/css/theme.css -o ./dist/app.css --minify"
+        "build": "npm exec -- tailwindcss -i ./src/css/theme.css -o ./dist/app.css --minify"
     },
     "keywords": [],
     "author": "",
