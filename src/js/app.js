@@ -41,6 +41,7 @@ function initializeMobileMenu() {
 
     let previousBodyOverflow = "";
     let returnFocusToToggle = true;
+    let openingFrame = null;
 
     function getFocusableElements() {
         return Array.from(
@@ -81,7 +82,13 @@ function initializeMobileMenu() {
          * Apply the open state after the initial closed state has
          * been rendered so the browser can animate the drawer.
          */
-        requestAnimationFrame(() => {
+        openingFrame = window.requestAnimationFrame(() => {
+            openingFrame = null;
+
+            if (toggle.getAttribute("aria-expanded") !== "true") {
+                return;
+            }
+
             navigation.classList.add("is-open");
             backdrop.classList.add("is-open");
             navigation.setAttribute("aria-hidden", "false");
@@ -99,11 +106,28 @@ function initializeMobileMenu() {
             return;
         }
 
-        navigation.classList.remove("is-open");
-        backdrop.classList.remove("is-open");
-
         toggle.setAttribute("aria-expanded", "false");
         toggle.setAttribute("aria-label", "Open navigation menu");
+
+        if (openingFrame !== null) {
+            window.cancelAnimationFrame(openingFrame);
+            openingFrame = null;
+        }
+
+        if (restoreFocus || navigation.contains(document.activeElement)) {
+            const focusTarget = desktopBreakpoint.matches
+                ? document.querySelector('header nav[aria-label="Primary navigation"] a[href]')
+                : toggle;
+
+            focusTarget?.focus();
+        }
+
+        navigation.inert = true;
+        backdrop.inert = true;
+        navigation.setAttribute("aria-hidden", "true");
+
+        navigation.classList.remove("is-open");
+        backdrop.classList.remove("is-open");
 
         if (icon) {
             icon.classList.remove("bi-x-lg");
@@ -112,33 +136,6 @@ function initializeMobileMenu() {
 
         document.body.classList.remove("mobile-navigation-open");
         document.body.style.overflow = previousBodyOverflow;
-
-        /*
-         * Keep the drawer accessible until its closing transition
-         * finishes. Then remove it from keyboard and screen-reader
-         * navigation.
-         */
-        const finishClosing = () => {
-            if (toggle.getAttribute("aria-expanded") === "true") {
-                return;
-            }
-
-            navigation.inert = true;
-            backdrop.inert = true;
-            navigation.setAttribute("aria-hidden", "true");
-
-            if (restoreFocus && !desktopBreakpoint.matches) {
-                toggle.focus();
-            }
-        };
-
-        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-        if (reducedMotion) {
-            finishClosing();
-        } else {
-            window.setTimeout(finishClosing, 300);
-        }
     }
 
     toggle.addEventListener("click", () => {
@@ -208,6 +205,10 @@ function initializeMobileMenu() {
      */
     desktopBreakpoint.addEventListener("change", (event) => {
         if (event.matches) {
+            if (toggle.getAttribute("aria-expanded") === "true") {
+                document.querySelector('header nav[aria-label="Primary navigation"] a[href]')?.focus();
+            }
+
             closeMenu({ restoreFocus: false });
         }
     });
