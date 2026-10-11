@@ -98,6 +98,7 @@ function updateContent() {
     updateTeamContent();
     updateStatisticsContent();
     updateGalleryContent();
+    updateVideoContent();
 }
 
 /*
@@ -1746,7 +1747,89 @@ function updateGalleryContent() {
 | VIDEO CONTENT
 |--------------------------------------------------------------------------
 */
+function updateVideoContent() {
+    const video = content.video;
 
+    if (!video) {
+        return;
+    }
+
+    const eyebrow = document.querySelector("[data-video-eyebrow]");
+
+    const titleMain = document.querySelector("[data-video-title-main]");
+
+    const titleHighlight = document.querySelector("[data-video-title-highlight]");
+
+    const description = document.querySelector("[data-video-description]");
+
+    const container = document.querySelector("[data-video-container]");
+
+    const caption = document.querySelector("[data-video-caption]");
+
+    const captionDescription = document.querySelector("[data-video-caption-description]");
+
+    if (eyebrow) {
+        eyebrow.textContent = video.eyebrow || "";
+    }
+
+    if (titleMain && video.title) {
+        titleMain.textContent = video.title.main || "";
+    }
+
+    if (titleHighlight && video.title) {
+        titleHighlight.textContent = video.title.highlight || "";
+    }
+
+    if (description) {
+        description.textContent = video.description || "";
+    }
+
+    if (caption) {
+        caption.textContent = video.caption || "";
+    }
+
+    if (captionDescription) {
+        captionDescription.textContent = video.captionDescription || "";
+    }
+
+    if (!container) {
+        return;
+    }
+
+    container.replaceChildren();
+
+    const embedUrl = video.embedUrl || "";
+
+    const isAllowedYouTubeEmbed =
+        /^https:\/\/www\.youtube-nocookie\.com\/embed\/[a-zA-Z0-9_-]+(?:\?[a-zA-Z0-9_=&%-]*)?$/.test(embedUrl);
+
+    if (!isAllowedYouTubeEmbed) {
+        const placeholder = document.createElement("div");
+
+        placeholder.className =
+            "flex h-full min-h-48 items-center justify-center px-6 text-center text-sm text-[var(--color-text-muted)]";
+
+        placeholder.textContent = "Add a valid YouTube video embed URL in config/content.js.";
+
+        container.appendChild(placeholder);
+
+        return;
+    }
+
+    const iframe = document.createElement("iframe");
+
+    iframe.src = embedUrl;
+    iframe.title = video.caption || "Business video";
+    iframe.loading = "lazy";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+
+    iframe.className = "h-full w-full border-0";
+
+    container.appendChild(iframe);
+}
 /*
 |--------------------------------------------------------------------------
 | TESTIMONIAL CONTENT

@@ -6,57 +6,57 @@ const sections = [
 
     {
         name: "hero",
-        enabled: true,
+        enabled: false,
     },
 
     {
         name: "about",
-        enabled: true,
+        enabled: false,
     },
 
     {
         name: "services",
-        enabled: true,
+        enabled: false,
     },
 
     {
         name: "features",
-        enabled: true,
+        enabled: false,
     },
 
     {
         name: "products",
-        enabled: true,
+        enabled: false,
     },
 
     {
         name: "menu",
-        enabled: true,
+        enabled: false,
     },
 
     {
         name: "portfolio",
-        enabled: true,
+        enabled: false,
     },
 
     {
         name: "process",
-        enabled: true,
+        enabled: false,
     },
 
     {
         name: "team",
-        enabled: true,
+        enabled: false,
     },
 
     {
         name: "statistics",
-        enabled: true,
+        enabled: false,
     },
 
     {
         name: "gallery",
-        enabled: true,
+        enabled: false,
     },
 
     {
@@ -66,7 +66,7 @@ const sections = [
 
     {
         name: "testimonials",
-        enabled: false,
+        enabled: true,
     },
 
     {

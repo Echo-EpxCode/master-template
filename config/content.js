@@ -494,6 +494,62 @@ const content = {
             },
         ],
     },
+    video: {
+        eyebrow: "Watch Our Story",
+
+        title: {
+            main: "See What Makes Us",
+            highlight: "Special.",
+        },
+
+        description: "Discover our story, products, and the people behind our business.",
+
+        embedUrl: "https://www.youtube-nocookie.com/embed/VIDEO_ID",
+
+        caption: "A Closer Look at Our Business",
+
+        captionDescription: "Get to know what we do and what we offer.",
+    },
+    testimonials: {
+        eyebrow: "Customer Feedback",
+
+        title: {
+            main: "Words from Our",
+            highlight: "Customers.",
+        },
+
+        description: "See what customers say about their experience with us.",
+
+        items: [
+            {
+                quote: "The service was excellent, and the overall experience was smooth and enjoyable.",
+
+                name: "Alex Customer",
+
+                detail: "Verified Customer",
+
+                rating: 5,
+            },
+            {
+                quote: "The team was helpful, professional, and attentive to every detail.",
+
+                name: "Jamie Customer",
+
+                detail: "Returning Customer",
+
+                rating: 5,
+            },
+            {
+                quote: "A great experience from start to finish. I would gladly recommend this business.",
+
+                name: "Taylor Customer",
+
+                detail: "Happy Customer",
+
+                rating: 5,
+            },
+        ],
+    },
 };
 
 export default content;
