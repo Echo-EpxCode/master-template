@@ -92,16 +92,30 @@ function initializeMobileMenu() {
     });
 }
 
+function hidePageLoader() {
+    const loader = document.querySelector("#page-loader");
+
+    if (!loader) {
+        return;
+    }
+
+    loader.classList.add("is-hidden");
+
+    loader.addEventListener("transitionend", () => loader.remove(), { once: true });
+
+    // Fallback for cases where the transition event does not fire.
+    window.setTimeout(() => loader.remove(), 300);
+}
+
 /*
 |--------------------------------------------------------------------------
 | WEBSITE RENDERER
 |--------------------------------------------------------------------------
 */
-
 async function renderWebsite() {
     if (!app) {
         console.error('App container "#app" was not found.');
-
+        hidePageLoader();
         return;
     }
 
@@ -112,7 +126,6 @@ async function renderWebsite() {
             }
 
             const markup = await loadSection(section.name);
-
             app.insertAdjacentHTML("beforeend", markup);
         }
 
@@ -121,6 +134,8 @@ async function renderWebsite() {
         initializeMobileMenu();
     } catch (error) {
         console.error("Website rendering failed:", error);
+    } finally {
+        hidePageLoader();
     }
 }
 
