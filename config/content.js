@@ -433,6 +433,67 @@ const content = {
             },
         ],
     },
+    statistics: {
+        eyebrow: "Our Achievements",
+
+        title: {
+            main: "Numbers That",
+            highlight: "Matter.",
+        },
+
+        description: "A look at the milestones that represent our work.",
+
+        items: [
+            {
+                value: "500+",
+                label: "Happy Customers",
+                icon: "bi-people",
+            },
+            {
+                value: "10+",
+                label: "Years of Experience",
+                icon: "bi-calendar-check",
+            },
+            {
+                value: "250+",
+                label: "Projects Completed",
+                icon: "bi-briefcase",
+            },
+            {
+                value: "98%",
+                label: "Customer Satisfaction",
+                icon: "bi-star",
+            },
+        ],
+    },
+    gallery: {
+        eyebrow: "Our Gallery",
+
+        title: {
+            main: "Take a Closer",
+            highlight: "Look.",
+        },
+
+        description: "Explore our products, spaces, and special moments.",
+
+        items: [
+            {
+                image: "./assets/images/hero.jpeg",
+                alt: "Featured product display",
+                caption: "Our Featured Products",
+            },
+            {
+                image: "./assets/images/hero.jpeg",
+                alt: "Inside the business location",
+                caption: "Our Space",
+            },
+            {
+                image: "./assets/images/hero.jpeg",
+                alt: "A close-up of a featured item",
+                caption: "Made with Care",
+            },
+        ],
+    },
 };
 
 export default content;

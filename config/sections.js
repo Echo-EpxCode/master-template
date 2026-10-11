@@ -51,12 +51,12 @@ const sections = [
 
     {
         name: "statistics",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "gallery",
-        enabled: false,
+        enabled: true,
     },
 
     {

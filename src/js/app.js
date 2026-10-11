@@ -96,6 +96,8 @@ function updateContent() {
     updatePortfolioContent();
     updateProcessContent();
     updateTeamContent();
+    updateStatisticsContent();
+    updateGalleryContent();
 }
 
 /*
@@ -1563,6 +1565,254 @@ function updateTeamContent() {
         });
     }
 }
+/*
+|--------------------------------------------------------------------------
+| STATISTIC CONTENT
+|--------------------------------------------------------------------------
+*/
+function updateStatisticsContent() {
+    const statistics = content.statistics;
+
+    if (!statistics) {
+        return;
+    }
+
+    const eyebrow = document.querySelector("[data-statistics-eyebrow]");
+
+    const titleMain = document.querySelector("[data-statistics-title-main]");
+
+    const titleHighlight = document.querySelector("[data-statistics-title-highlight]");
+
+    const description = document.querySelector("[data-statistics-description]");
+
+    const grid = document.querySelector("[data-statistics-grid]");
+
+    if (eyebrow) {
+        eyebrow.textContent = statistics.eyebrow;
+    }
+
+    if (titleMain && statistics.title) {
+        titleMain.textContent = statistics.title.main;
+    }
+
+    if (titleHighlight && statistics.title) {
+        titleHighlight.textContent = statistics.title.highlight;
+    }
+
+    if (description) {
+        description.textContent = statistics.description;
+    }
+
+    if (!grid || !Array.isArray(statistics.items)) {
+        return;
+    }
+
+    grid.replaceChildren();
+
+    statistics.items.forEach((item) => {
+        const card = document.createElement("article");
+
+        card.className =
+            "rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] p-5 text-center shadow-[var(--shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)] sm:p-6";
+
+        const iconWrapper = document.createElement("div");
+
+        iconWrapper.className =
+            "mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary)]/10 text-[var(--color-primary)]";
+
+        const icon = document.createElement("i");
+
+        icon.className = `bi ${item.icon || "bi-bar-chart"}`;
+
+        icon.setAttribute("aria-hidden", "true");
+
+        iconWrapper.appendChild(icon);
+
+        const value = document.createElement("p");
+
+        value.className = "text-3xl font-bold tracking-tight text-[var(--color-primary)] sm:text-4xl";
+
+        value.textContent = item.value;
+
+        const label = document.createElement("p");
+
+        label.className = "mt-2 text-sm font-medium leading-6 text-[var(--color-text-muted)]";
+
+        label.textContent = item.label;
+
+        card.append(iconWrapper, value, label);
+
+        grid.appendChild(card);
+    });
+}
+/*
+|--------------------------------------------------------------------------
+| GALLERY CONTENT
+|--------------------------------------------------------------------------
+*/
+function updateGalleryContent() {
+    const gallery = content.gallery;
+
+    if (!gallery) {
+        return;
+    }
+
+    const eyebrow = document.querySelector("[data-gallery-eyebrow]");
+
+    const titleMain = document.querySelector("[data-gallery-title-main]");
+
+    const titleHighlight = document.querySelector("[data-gallery-title-highlight]");
+
+    const description = document.querySelector("[data-gallery-description]");
+
+    const grid = document.querySelector("[data-gallery-grid]");
+
+    if (eyebrow) {
+        eyebrow.textContent = gallery.eyebrow || "";
+    }
+
+    if (titleMain && gallery.title) {
+        titleMain.textContent = gallery.title.main || "";
+    }
+
+    if (titleHighlight && gallery.title) {
+        titleHighlight.textContent = gallery.title.highlight || "";
+    }
+
+    if (description) {
+        description.textContent = gallery.description || "";
+    }
+
+    if (!grid || !Array.isArray(gallery.items)) {
+        return;
+    }
+
+    grid.replaceChildren();
+
+    gallery.items.forEach((item) => {
+        const card = document.createElement("figure");
+
+        card.className =
+            "group relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-sm)]";
+
+        if (item.image) {
+            const image = document.createElement("img");
+
+            image.src = item.image;
+            image.alt = item.alt || item.caption || "";
+            image.loading = "lazy";
+            image.decoding = "async";
+
+            image.className =
+                "aspect-[4/5] w-full object-cover transition-transform duration-500 group-hover:scale-105";
+
+            image.addEventListener(
+                "error",
+                () => {
+                    image.removeAttribute("src");
+                    image.alt = "Image unavailable";
+                    image.className = "aspect-[4/5] w-full bg-[var(--color-surface-soft)] object-contain";
+                },
+                { once: true },
+            );
+
+            card.appendChild(image);
+        } else {
+            const placeholder = document.createElement("div");
+
+            placeholder.className =
+                "flex aspect-[4/5] items-center justify-center bg-[var(--color-surface-soft)] text-sm text-[var(--color-text-muted)]";
+
+            placeholder.textContent = "Add an image path";
+
+            card.appendChild(placeholder);
+        }
+
+        if (item.caption) {
+            const caption = document.createElement("figcaption");
+
+            caption.className = "px-3 py-3 text-sm font-medium text-[var(--color-text)] sm:px-4";
+
+            caption.textContent = item.caption;
+
+            card.appendChild(caption);
+        }
+
+        grid.appendChild(card);
+    });
+}
+/*
+|--------------------------------------------------------------------------
+| VIDEO CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| TESTIMONIAL CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| REVIEW CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| RATINGS CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| SOCIAL PROOF CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| CTA CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| SOCIAL CTA CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| CONTACT CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| BOOKING CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| LOCATION CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| FINAL CTA CONTENT
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| FOOTER CONTENT
+|--------------------------------------------------------------------------
+*/
+
 /*
 |--------------------------------------------------------------------------
 | START WEBSITE
