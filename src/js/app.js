@@ -29,27 +29,42 @@ async function loadSection(name) {
 function initializeMobileMenu() {
     const toggle = document.querySelector("[data-menu-toggle]");
     const navigation = document.querySelector("[data-mobile-navigation]");
+    const backdrop = document.querySelector("[data-menu-backdrop]");
+    const closeButton = document.querySelector("[data-menu-close]");
 
-    if (!toggle || !navigation) {
+    if (!toggle || !navigation || !backdrop || !closeButton) {
         return;
     }
 
     const icon = toggle.querySelector("i");
+    const desktopBreakpoint = window.matchMedia("(min-width: 768px)");
 
-    function closeMenu() {
-        navigation.classList.add("hidden");
+    let previousBodyOverflow = "";
+    let returnFocusToToggle = true;
 
-        toggle.setAttribute("aria-expanded", "false");
-        toggle.setAttribute("aria-label", "Open navigation menu");
-
-        if (icon) {
-            icon.classList.remove("bi-x-lg");
-            icon.classList.add("bi-list");
-        }
+    function getFocusableElements() {
+        return Array.from(
+            navigation.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+        ).filter((element) => {
+            return !element.hasAttribute("disabled") && element.getAttribute("aria-hidden") !== "true";
+        });
     }
 
     function openMenu() {
-        navigation.classList.remove("hidden");
+        if (desktopBreakpoint.matches) {
+            return;
+        }
+
+        if (toggle.getAttribute("aria-expanded") === "true") {
+            return;
+        }
+
+        previousBodyOverflow = document.body.style.overflow;
+
+        navigation.inert = false;
+        backdrop.inert = false;
+
+        navigation.setAttribute("aria-hidden", "false");
 
         toggle.setAttribute("aria-expanded", "true");
         toggle.setAttribute("aria-label", "Close navigation menu");
@@ -58,36 +73,142 @@ function initializeMobileMenu() {
             icon.classList.remove("bi-list");
             icon.classList.add("bi-x-lg");
         }
+
+        document.body.classList.add("mobile-navigation-open");
+        document.body.style.overflow = "hidden";
+
+        /*
+         * Apply the open state after the initial closed state has
+         * been rendered so the browser can animate the drawer.
+         */
+        requestAnimationFrame(() => {
+            navigation.classList.add("is-open");
+            backdrop.classList.add("is-open");
+            navigation.setAttribute("aria-hidden", "false");
+
+            closeButton.focus();
+        });
+    }
+
+    function closeMenu(options = {}) {
+        const { restoreFocus = true } = options;
+
+        const wasOpen = toggle.getAttribute("aria-expanded") === "true";
+
+        if (!wasOpen) {
+            return;
+        }
+
+        navigation.classList.remove("is-open");
+        backdrop.classList.remove("is-open");
+
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Open navigation menu");
+
+        if (icon) {
+            icon.classList.remove("bi-x-lg");
+            icon.classList.add("bi-list");
+        }
+
+        document.body.classList.remove("mobile-navigation-open");
+        document.body.style.overflow = previousBodyOverflow;
+
+        /*
+         * Keep the drawer accessible until its closing transition
+         * finishes. Then remove it from keyboard and screen-reader
+         * navigation.
+         */
+        const finishClosing = () => {
+            if (toggle.getAttribute("aria-expanded") === "true") {
+                return;
+            }
+
+            navigation.inert = true;
+            backdrop.inert = true;
+            navigation.setAttribute("aria-hidden", "true");
+
+            if (restoreFocus && !desktopBreakpoint.matches) {
+                toggle.focus();
+            }
+        };
+
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (reducedMotion) {
+            finishClosing();
+        } else {
+            window.setTimeout(finishClosing, 300);
+        }
     }
 
     toggle.addEventListener("click", () => {
-        const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+        const isOpen = toggle.getAttribute("aria-expanded") === "true";
 
-        if (isExpanded) {
+        if (isOpen) {
             closeMenu();
         } else {
             openMenu();
         }
     });
 
-    // Close the menu after selecting a navigation link.
-    navigation.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", closeMenu);
+    closeButton.addEventListener("click", () => {
+        closeMenu();
     });
 
-    // Close the menu when the Escape key is pressed.
+    backdrop.addEventListener("click", () => {
+        closeMenu();
+    });
+
+    navigation.querySelectorAll("[data-menu-link]").forEach((link) => {
+        link.addEventListener("click", () => {
+            closeMenu({ restoreFocus: false });
+        });
+    });
+
     document.addEventListener("keydown", (event) => {
+        const isOpen = toggle.getAttribute("aria-expanded") === "true";
+
+        if (!isOpen) {
+            return;
+        }
+
         if (event.key === "Escape") {
+            event.preventDefault();
             closeMenu();
+            return;
+        }
+
+        /*
+         * Keep keyboard focus inside the open navigation drawer.
+         */
+        if (event.key === "Tab") {
+            const focusableElements = getFocusableElements();
+
+            if (focusableElements.length === 0) {
+                event.preventDefault();
+                closeButton.focus();
+                return;
+            }
+
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            if (event.shiftKey && document.activeElement === firstElement) {
+                event.preventDefault();
+                lastElement.focus();
+            } else if (!event.shiftKey && document.activeElement === lastElement) {
+                event.preventDefault();
+                firstElement.focus();
+            }
         }
     });
 
-    // Close the mobile menu when switching to desktop width.
-    const desktopBreakpoint = window.matchMedia("(min-width: 768px)");
-
+    /*
+     * Close the drawer when switching to desktop width.
+     */
     desktopBreakpoint.addEventListener("change", (event) => {
         if (event.matches) {
-            closeMenu();
+            closeMenu({ restoreFocus: false });
         }
     });
 }
