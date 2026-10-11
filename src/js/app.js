@@ -107,6 +107,116 @@ function hidePageLoader() {
     window.setTimeout(() => loader.remove(), 300);
 }
 
+// Float Button
+function isValidFloatingActionUrl(value) {
+    if (typeof value !== "string" || !value.trim()) {
+        return false;
+    }
+
+    // Only allow complete web URLs, telephone links, and email links.
+    return /^(https?:\/\/|tel:|mailto:)/i.test(value.trim());
+}
+
+async function initializeFloatingActions() {
+    const config = site.floatingActions;
+
+    if (!config?.enabled || !Array.isArray(config.items)) {
+        return;
+    }
+
+    const items = config.items.filter((item) => item.enabled && item.label && isValidFloatingActionUrl(item.url));
+
+    // Hide the component if no valid actions are configured.
+    if (items.length === 0) {
+        return;
+    }
+
+    try {
+        const response = await fetch("./src/components/floating-actions.html");
+
+        if (!response.ok) {
+            throw new Error("Could not load floating-actions.html");
+        }
+
+        const markup = await response.text();
+
+        // Avoid creating duplicate floating action containers.
+        document.querySelector("#floating-actions-root")?.remove();
+
+        document.body.insertAdjacentHTML("beforeend", markup);
+
+        const root = document.querySelector("#floating-actions-root");
+
+        if (!root) {
+            return;
+        }
+
+        const list = document.createElement("div");
+        list.className = "floating-actions__list";
+        list.setAttribute("role", "group");
+        list.setAttribute("aria-label", "Order and contact options");
+
+        items.slice(0, 3).forEach((item, index) => {
+            const link = document.createElement("a");
+
+            link.className = "floating-actions__button";
+            link.href = item.url.trim();
+            link.setAttribute("aria-label", item.label);
+            link.style.setProperty("--action-color", item.color || "var(--color-primary)");
+            link.style.animationDelay = `${index * 70}ms`;
+
+            const isWebLink = /^https?:\/\//i.test(item.url.trim());
+
+            if (isWebLink) {
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+            }
+
+            const iconContainer = document.createElement("span");
+            iconContainer.className = "floating-actions__icon";
+            iconContainer.setAttribute("aria-hidden", "true");
+
+            if (item.logo) {
+                const image = document.createElement("img");
+                image.src = item.logo;
+                image.alt = "";
+                image.loading = "eager";
+
+                image.addEventListener(
+                    "error",
+                    () => {
+                        image.remove();
+
+                        const fallbackIcon = document.createElement("i");
+                        fallbackIcon.className = `bi ${item.icon || "bi-arrow-up-right-circle"}`;
+
+                        iconContainer.appendChild(fallbackIcon);
+                    },
+                    { once: true },
+                );
+
+                iconContainer.appendChild(image);
+            } else {
+                const icon = document.createElement("i");
+                icon.className = `bi ${item.icon || "bi-arrow-up-right-circle"}`;
+
+                iconContainer.appendChild(icon);
+            }
+
+            const label = document.createElement("span");
+            label.className = "floating-actions__label";
+            label.textContent = item.label;
+
+            link.append(iconContainer, label);
+            list.appendChild(link);
+        });
+
+        root.appendChild(list);
+    } catch (error) {
+        console.error("Floating actions initialization failed:", error);
+    }
+}
+
 /*
 |--------------------------------------------------------------------------
 | WEBSITE RENDERER
@@ -132,6 +242,9 @@ async function renderWebsite() {
         updateSiteInformation();
         updateContent();
         initializeMobileMenu();
+
+        await initializeFloatingActions();
+        
     } catch (error) {
         console.error("Website rendering failed:", error);
     } finally {
