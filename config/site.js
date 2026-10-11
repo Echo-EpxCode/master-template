@@ -58,7 +58,7 @@ const site = {
                 enabled: true,
                 color: "#D70F64",
                 icon: "bi-bag-heart-fill",
-                logo: "LOGO",
+                logo: "",
             },
             {
                 id: "grabfood",
