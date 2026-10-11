@@ -1,4 +1,15 @@
 const site = {
+    // LOADER ANIMATION
+    // skeleton
+    // logo
+    // spinner
+    // none
+    loader: {
+        type: "none",
+        text: "Loading...",
+        logo: "./assets/images/hero.jpeg",
+        animation: "fade",
+    },
     // =====================================================
     // BUSINESS INFORMATION
     // =====================================================
@@ -42,7 +53,7 @@ const site = {
         items: [
             {
                 id: "foodpanda",
-                label: "Order on Foodpanda",
+                label: "Foodpanda",
                 url: "https://www.facebook.com/",
                 enabled: true,
                 color: "#D70F64",
@@ -51,7 +62,7 @@ const site = {
             },
             {
                 id: "grabfood",
-                label: "Order on GrabFood",
+                label: "GrabFood",
                 url: "https://www.facebook.com/",
                 enabled: true,
                 color: "#00A859",

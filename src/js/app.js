@@ -107,6 +107,60 @@ function hidePageLoader() {
     window.setTimeout(() => loader.remove(), 300);
 }
 
+function configurePageLoader() {
+    const loader = document.querySelector("#page-loader");
+
+    if (!loader) {
+        return;
+    }
+
+    const config = site.loader ?? {};
+
+    const allowedTypes = ["none", "spinner", "skeleton", "logo"];
+
+    const allowedAnimations = ["pulse", "fade", "float"];
+
+    const type = allowedTypes.includes(config.type) ? config.type : "skeleton";
+
+    const animation = allowedAnimations.includes(config.animation) ? config.animation : "pulse";
+
+    // Option 1: Disable the loader completely.
+    if (type === "none") {
+        loader.remove();
+        return;
+    }
+
+    // Select the requested loading mode.
+    loader.classList.remove("page-skeleton--spinner", "page-skeleton--skeleton", "page-skeleton--logo");
+
+    loader.classList.add(`page-skeleton--${type}`);
+
+    // Configure accessible loading text.
+    loader.setAttribute("aria-label", config.text || "Loading website");
+
+    loader.querySelectorAll(".loader-message").forEach((element) => {
+        element.textContent = config.text || "Loading...";
+    });
+
+    // Configure the client logo and its animation.
+    const logo = loader.querySelector("#page-loader-logo");
+
+    if (logo) {
+        logo.dataset.animation = animation;
+
+        if (config.logo) {
+            logo.src = config.logo;
+            logo.hidden = false;
+        } else {
+            logo.hidden = true;
+        }
+    }
+
+    // Use the spinner if logo mode has no configured logo.
+    if (type === "logo" && !config.logo) {
+        loader.classList.replace("page-skeleton--logo", "page-skeleton--spinner");
+    }
+}
 // Float Button
 function isValidFloatingActionUrl(value) {
     if (typeof value !== "string" || !value.trim()) {
@@ -163,7 +217,7 @@ async function initializeFloatingActions() {
             link.href = item.url.trim();
             link.setAttribute("aria-label", item.label);
             link.style.setProperty("--action-color", item.color || "var(--color-primary)");
-            link.style.animationDelay = `${index * 70}ms`;
+            link.style.setProperty("--action-delay", `${index * 70}ms`);
 
             const isWebLink = /^https?:\/\//i.test(item.url.trim());
 
@@ -203,11 +257,9 @@ async function initializeFloatingActions() {
                 iconContainer.appendChild(icon);
             }
 
-            const label = document.createElement("span");
-            label.className = "floating-actions__label";
-            label.textContent = item.label;
+            link.title = item.label;
 
-            link.append(iconContainer, label);
+            link.appendChild(iconContainer);
             list.appendChild(link);
         });
 
@@ -223,6 +275,7 @@ async function initializeFloatingActions() {
 |--------------------------------------------------------------------------
 */
 async function renderWebsite() {
+    configurePageLoader();
     if (!app) {
         console.error('App container "#app" was not found.');
         hidePageLoader();
@@ -244,7 +297,6 @@ async function renderWebsite() {
         initializeMobileMenu();
 
         await initializeFloatingActions();
-        
     } catch (error) {
         console.error("Website rendering failed:", error);
     } finally {

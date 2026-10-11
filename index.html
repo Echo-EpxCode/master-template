@@ -18,13 +18,63 @@
     </head>
 
     <body>
-        <!-- Page Loading Animation -->
-        <div id="page-loader" role="status" aria-label="Loading website">
-            <div class="page-loader__content">
-                <div class="page-loader__spinner" aria-hidden="true"></div>
-                <p class="page-loader__text">Loading...</p>
+        <!-- Configurable Page Loader -->
+        <div id="page-loader" class="page-skeleton page-skeleton--skeleton" role="status" aria-label="Loading website">
+            <!-- Spinner mode -->
+            <div class="loader-view loader-view--spinner">
+                <div class="loader-spinner" aria-hidden="true"></div>
+
+                <p class="loader-message">Loading...</p>
+            </div>
+
+            <!-- Logo mode -->
+            <div class="loader-view loader-view--logo">
+                <img id="page-loader-logo" class="loader-logo" src="./assets/images/logo.png" alt=""
+                    aria-hidden="true" />
+
+                <p class="loader-message">Loading...</p>
+            </div>
+
+            <!-- Skeleton mode -->
+            <div class="loader-view loader-view--skeleton">
+                <div class="page-skeleton__container">
+
+                    <!-- Header placeholder -->
+                    <div class="page-skeleton__header">
+                        <div class="skeleton skeleton--logo"></div>
+
+                        <div class="page-skeleton__nav">
+                            <div class="skeleton skeleton--nav"></div>
+                            <div class="skeleton skeleton--nav"></div>
+                            <div class="skeleton skeleton--nav"></div>
+                        </div>
+                    </div>
+
+                    <!-- Hero placeholder -->
+                    <div class="page-skeleton__hero">
+                        <div class="page-skeleton__hero-content">
+                            <div class="skeleton skeleton--eyebrow"></div>
+                            <div class="skeleton skeleton--title"></div>
+                            <div class="skeleton skeleton--title skeleton--title-short"></div>
+                            <div class="skeleton skeleton--text"></div>
+                            <div class="skeleton skeleton--text skeleton--text-short"></div>
+                            <div class="skeleton skeleton--button"></div>
+                        </div>
+
+                        <div class="skeleton skeleton--image"></div>
+                    </div>
+
+                    <!-- Supporting content placeholders -->
+                    <div class="page-skeleton__cards">
+                        <div class="skeleton skeleton--card"></div>
+                        <div class="skeleton skeleton--card"></div>
+                        <div class="skeleton skeleton--card"></div>
+                    </div>
+
+                </div>
             </div>
         </div>
+        <!-- End Configurable Page Loader -->
 
         <!-- =================================================
          WEBSITE ROOT
