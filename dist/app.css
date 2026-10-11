@@ -50,6 +50,7 @@
     --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --blur-md: 12px;
     --blur-2xl: 40px;
     --blur-3xl: 64px;
@@ -211,6 +212,9 @@
 @layer utilities {
   .pointer-events-none {
     pointer-events: none;
+  }
+  .visible {
+    visibility: visible;
   }
   .absolute {
     position: absolute;
@@ -428,6 +432,9 @@
   .h-72 {
     height: calc(var(--spacing) * 72);
   }
+  .h-80 {
+    height: calc(var(--spacing) * 80);
+  }
   .h-96 {
     height: calc(var(--spacing) * 96);
   }
@@ -448,6 +455,9 @@
   }
   .min-h-48 {
     min-height: calc(var(--spacing) * 48);
+  }
+  .min-h-64 {
+    min-height: calc(var(--spacing) * 64);
   }
   .w-9 {
     width: calc(var(--spacing) * 9);
@@ -620,6 +630,9 @@
   .rounded-full {
     border-radius: calc(infinity * 1px);
   }
+  .rounded-xl {
+    border-radius: var(--radius-xl);
+  }
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
@@ -650,6 +663,9 @@
   }
   .bg-\[var\(--color-border\)\] {
     background-color: var(--color-border);
+  }
+  .bg-\[var\(--color-glow\)\] {
+    background-color: var(--color-glow);
   }
   .bg-\[var\(--color-glow\)\]\/5 {
     background-color: var(--color-glow);
@@ -705,6 +721,9 @@
   .p-6 {
     padding: calc(var(--spacing) * 6);
   }
+  .p-8 {
+    padding: calc(var(--spacing) * 8);
+  }
   .px-1 {
     padding-inline: var(--spacing);
   }
@@ -722,6 +741,9 @@
   }
   .px-6 {
     padding-inline: calc(var(--spacing) * 6);
+  }
+  .px-7 {
+    padding-inline: calc(var(--spacing) * 7);
   }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
@@ -744,6 +766,9 @@
   .py-10 {
     padding-block: calc(var(--spacing) * 10);
   }
+  .py-12 {
+    padding-block: calc(var(--spacing) * 12);
+  }
   .py-14 {
     padding-block: calc(var(--spacing) * 14);
   }
@@ -752,6 +777,9 @@
   }
   .py-20 {
     padding-block: calc(var(--spacing) * 20);
+  }
+  .pt-6 {
+    padding-top: calc(var(--spacing) * 6);
   }
   .text-center {
     text-align: center;
@@ -865,6 +893,15 @@
   .underline-offset-4 {
     text-underline-offset: 4px;
   }
+  .opacity-0 {
+    opacity: 0%;
+  }
+  .opacity-10 {
+    opacity: 10%;
+  }
+  .opacity-100 {
+    opacity: 100%;
+  }
   .shadow-\[var\(--shadow-lg\)\] {
     --tw-shadow: var(--shadow-lg);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -943,6 +980,10 @@
     --tw-duration: 500ms;
     transition-duration: 500ms;
   }
+  .ease-in-out {
+    --tw-ease: var(--ease-in-out);
+    transition-timing-function: var(--ease-in-out);
+  }
   @media (hover: hover) {
     .group-hover\:translate-x-1:is(:where(.group):hover *) {
       --tw-translate-x: var(--spacing);
@@ -1008,6 +1049,9 @@
   .focus-visible\:outline-offset-2:focus-visible {
     outline-offset: 2px;
   }
+  .focus-visible\:outline-offset-4:focus-visible {
+    outline-offset: 4px;
+  }
   .focus-visible\:outline-\[var\(--color-primary\)\]:focus-visible {
     outline-color: var(--color-primary);
   }
@@ -1041,6 +1085,12 @@
     }
     .sm\:flex-row {
       flex-direction: row;
+    }
+    .sm\:items-center {
+      align-items: center;
+    }
+    .sm\:justify-between {
+      justify-content: space-between;
     }
     .sm\:gap-5 {
       gap: calc(var(--spacing) * 5);
@@ -1132,6 +1182,9 @@
     }
     .lg\:grid-cols-4 {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .lg\:items-center {
+      align-items: center;
     }
     .lg\:gap-16 {
       gap: calc(var(--spacing) * 16);
@@ -1411,6 +1464,10 @@ button, input, textarea, select {
   syntax: "*";
   inherits: false;
 }
+@property --tw-ease {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
@@ -1488,6 +1545,7 @@ button, input, textarea, select {
       --tw-backdrop-saturate: initial;
       --tw-backdrop-sepia: initial;
       --tw-duration: initial;
+      --tw-ease: initial;
       --tw-translate-x: 0;
       --tw-translate-y: 0;
       --tw-translate-z: 0;

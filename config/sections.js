@@ -1,97 +1,97 @@
 const sections = [
     {
         name: "header",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "hero",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "about",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "services",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "features",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "products",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "menu",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "portfolio",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "process",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "team",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "statistics",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "gallery",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "video",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "testimonials",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "reviews",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "ratings",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "socialProof",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "cta",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "socialCta",
-        enabled: false,
+        enabled: true,
     },
 
     {
@@ -101,22 +101,22 @@ const sections = [
 
     {
         name: "booking",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "location",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "finalCta",
-        enabled: false,
+        enabled: true,
     },
 
     {
         name: "footer",
-        enabled: false,
+        enabled: true,
     },
 ];
 

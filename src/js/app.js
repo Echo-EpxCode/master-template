@@ -22,6 +22,78 @@ async function loadSection(name) {
 
 /*
 |--------------------------------------------------------------------------
+| MOBILE NAVIGATION
+|--------------------------------------------------------------------------
+*/
+
+function initializeMobileMenu() {
+    const toggle = document.querySelector("[data-menu-toggle]");
+    const navigation = document.querySelector("[data-mobile-navigation]");
+
+    if (!toggle || !navigation) {
+        return;
+    }
+
+    const icon = toggle.querySelector("i");
+
+    function closeMenu() {
+        navigation.classList.add("hidden");
+
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Open navigation menu");
+
+        if (icon) {
+            icon.classList.remove("bi-x-lg");
+            icon.classList.add("bi-list");
+        }
+    }
+
+    function openMenu() {
+        navigation.classList.remove("hidden");
+
+        toggle.setAttribute("aria-expanded", "true");
+        toggle.setAttribute("aria-label", "Close navigation menu");
+
+        if (icon) {
+            icon.classList.remove("bi-list");
+            icon.classList.add("bi-x-lg");
+        }
+    }
+
+    toggle.addEventListener("click", () => {
+        const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+
+        if (isExpanded) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+
+    // Close the menu after selecting a navigation link.
+    navigation.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", closeMenu);
+    });
+
+    // Close the menu when the Escape key is pressed.
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closeMenu();
+        }
+    });
+
+    // Close the mobile menu when switching to desktop width.
+    const desktopBreakpoint = window.matchMedia("(min-width: 768px)");
+
+    desktopBreakpoint.addEventListener("change", (event) => {
+        if (event.matches) {
+            closeMenu();
+        }
+    });
+}
+
+/*
+|--------------------------------------------------------------------------
 | WEBSITE RENDERER
 |--------------------------------------------------------------------------
 */
@@ -46,6 +118,7 @@ async function renderWebsite() {
 
         updateSiteInformation();
         updateContent();
+        initializeMobileMenu();
     } catch (error) {
         console.error("Website rendering failed:", error);
     }
@@ -106,6 +179,10 @@ function updateContent() {
     updateCtaContent();
     updateSocialCtaContent();
     updateContactContent();
+    updateBookingContent();
+    updateLocationContent();
+    updateFooterContent();
+    updateFinalCtaContent();
 }
 
 /*
@@ -2557,25 +2634,364 @@ function updateContactContent() {
 | BOOKING CONTENT
 |--------------------------------------------------------------------------
 */
+function updateBookingContent() {
+    const section = document.querySelector("#booking");
 
+    if (!section) return;
+
+    const settings = content.booking;
+
+    if (!settings) return;
+
+    const eyebrow = section.querySelector("[data-booking-eyebrow]");
+    const title = section.querySelector("[data-booking-title]");
+    const description = section.querySelector("[data-booking-description]");
+    const button = section.querySelector("[data-booking-button]");
+    const note = section.querySelector("[data-booking-note]");
+
+    if (eyebrow) {
+        eyebrow.textContent = settings.eyebrow;
+    }
+
+    if (title) {
+        title.textContent = settings.title;
+    }
+
+    if (description) {
+        description.textContent = settings.description;
+    }
+
+    if (note) {
+        note.textContent = settings.note || "";
+        note.hidden = !settings.note;
+    }
+
+    if (button) {
+        const url = settings.buttonUrl || "#contact";
+        const isSafeUrl = /^(https?:\/\/|mailto:|tel:|#)/i.test(url);
+
+        button.textContent = "";
+
+        if (!isSafeUrl) {
+            button.hidden = true;
+            return;
+        }
+
+        button.hidden = false;
+        button.href = url;
+
+        const label = document.createElement("span");
+        label.textContent = settings.buttonLabel || "Book Now";
+
+        const icon = document.createElement("i");
+        icon.className = "bi bi-arrow-right";
+        icon.setAttribute("aria-hidden", "true");
+
+        button.append(label, icon);
+
+        if (/^https?:\/\//i.test(url)) {
+            button.target = "_blank";
+            button.rel = "noopener noreferrer";
+        } else {
+            button.removeAttribute("target");
+            button.removeAttribute("rel");
+        }
+    }
+}
 /*
 |--------------------------------------------------------------------------
 | LOCATION CONTENT
 |--------------------------------------------------------------------------
 */
+function updateLocationContent() {
+    const section = document.querySelector("#location");
 
+    if (!section) return;
+
+    const settings = content.location;
+
+    if (!settings) return;
+
+    const eyebrow = section.querySelector("[data-location-eyebrow]");
+    const title = section.querySelector("[data-location-title]");
+    const description = section.querySelector("[data-location-description]");
+    const address = section.querySelector("[data-location-address]");
+    const directions = section.querySelector("[data-location-directions]");
+    const map = section.querySelector("[data-location-map]");
+    const placeholder = section.querySelector("[data-location-map-placeholder]");
+
+    if (eyebrow) {
+        eyebrow.textContent = settings.eyebrow;
+    }
+
+    if (title) {
+        title.textContent = settings.title;
+    }
+
+    if (description) {
+        description.textContent = settings.description;
+    }
+
+    if (address) {
+        address.textContent = settings.address || "";
+        address.hidden = !settings.address;
+    }
+
+    // Validate the directions link.
+    if (directions) {
+        const directionsUrl = settings.directionsUrl || "";
+
+        const validDirectionsUrl =
+            /^https:\/\/(?:www\.)?google\.[a-z.]+\/maps(?:\/|$|\?)/i.test(directionsUrl) ||
+            /^https:\/\/maps\.app\.goo\.gl\//i.test(directionsUrl) ||
+            /^https:\/\/goo\.gl\/maps\//i.test(directionsUrl);
+
+        if (validDirectionsUrl) {
+            directions.href = directionsUrl;
+            directions.hidden = false;
+        } else {
+            directions.hidden = true;
+        }
+    }
+
+    // Only show an embedded map from a recognized Google Maps host.
+    if (map && placeholder) {
+        const embedUrl = settings.mapEmbedUrl || "";
+
+        let validEmbedUrl = false;
+
+        try {
+            const parsedUrl = new URL(embedUrl);
+
+            validEmbedUrl =
+                parsedUrl.protocol === "https:" &&
+                ["www.google.com", "google.com", "maps.google.com"].includes(parsedUrl.hostname) &&
+                parsedUrl.pathname.startsWith("/maps/embed");
+        } catch {
+            validEmbedUrl = false;
+        }
+
+        if (validEmbedUrl) {
+            map.src = embedUrl;
+            map.classList.remove("hidden");
+            placeholder.classList.add("hidden");
+        } else {
+            map.removeAttribute("src");
+            map.classList.add("hidden");
+            placeholder.classList.remove("hidden");
+        }
+    }
+}
 /*
 |--------------------------------------------------------------------------
 | FINAL CTA CONTENT
 |--------------------------------------------------------------------------
 */
+function updateFinalCtaContent() {
+    const section = document.querySelector("#final-cta");
 
+    if (!section) return;
+
+    const settings = content.finalCta;
+
+    if (!settings) return;
+
+    const eyebrow = section.querySelector("[data-final-cta-eyebrow]");
+    const title = section.querySelector("[data-final-cta-title]");
+    const description = section.querySelector("[data-final-cta-description]");
+    const actions = section.querySelector("[data-final-cta-actions]");
+    const note = section.querySelector("[data-final-cta-note]");
+
+    if (eyebrow) {
+        eyebrow.textContent = settings.eyebrow || "";
+    }
+
+    if (title) {
+        title.textContent = settings.title || "";
+    }
+
+    if (description) {
+        description.textContent = settings.description || "";
+    }
+
+    if (note) {
+        note.textContent = settings.note || "";
+        note.hidden = !settings.note;
+    }
+
+    if (!actions) return;
+
+    actions.replaceChildren();
+
+    const allowedStyles = {
+        primary: "bg-[var(--color-primary)] text-white " + "hover:opacity-90 shadow-sm",
+
+        secondary:
+            "border border-[var(--color-border)] " +
+            "bg-[var(--color-surface)] text-[var(--color-text)] " +
+            "hover:border-[var(--color-primary)] " +
+            "hover:text-[var(--color-primary)]",
+    };
+
+    (settings.buttons || []).forEach((item) => {
+        if (!item.label || !item.url) return;
+
+        const isSafeUrl = /^(https?:\/\/|mailto:|tel:|#)/i.test(item.url);
+
+        if (!isSafeUrl) return;
+
+        const button = document.createElement("a");
+
+        button.href = item.url;
+        button.className =
+            "inline-flex items-center justify-center gap-2 " +
+            "rounded-full px-6 py-3 text-sm font-semibold " +
+            "transition duration-300 focus-visible:outline-2 " +
+            "focus-visible:outline-offset-4 " +
+            "focus-visible:outline-[var(--color-primary)] " +
+            (allowedStyles[item.style] || allowedStyles.secondary);
+
+        button.textContent = item.label;
+
+        if (/^https?:\/\//i.test(item.url)) {
+            button.target = "_blank";
+            button.rel = "noopener noreferrer";
+        }
+
+        if (item.icon && /^[a-z0-9-]+$/i.test(item.icon)) {
+            const icon = document.createElement("i");
+
+            icon.className = `bi ${item.icon}`;
+            icon.setAttribute("aria-hidden", "true");
+
+            button.append(icon);
+        }
+
+        actions.append(button);
+    });
+}
 /*
 |--------------------------------------------------------------------------
 | FOOTER CONTENT
 |--------------------------------------------------------------------------
 */
+function updateFooterContent() {
+    const footer = document.querySelector("#footer");
 
+    if (!footer) return;
+
+    const settings = content.footer;
+
+    if (!settings) return;
+
+    const siteName = footer.querySelector("[data-footer-site-name]");
+    const description = footer.querySelector("[data-footer-description]");
+    const navigation = footer.querySelector("[data-footer-navigation]");
+    const contact = footer.querySelector("[data-footer-contact]");
+    const social = footer.querySelector("[data-footer-social]");
+    const copyright = footer.querySelector("[data-footer-copyright]");
+
+    if (siteName) {
+        siteName.textContent = site.name;
+    }
+
+    if (description) {
+        description.textContent = settings.description;
+    }
+
+    if (navigation) {
+        navigation.replaceChildren();
+
+        (settings.navigation || []).forEach((item) => {
+            if (!item.label || !item.url) return;
+
+            const link = document.createElement("a");
+            link.textContent = item.label;
+            link.href = item.url;
+
+            link.className = "transition-colors hover:text-[var(--color-primary)]";
+
+            navigation.append(link);
+        });
+    }
+
+    if (contact) {
+        contact.replaceChildren();
+
+        const details = [
+            {
+                value: site.phone,
+                href: site.phone ? `tel:${site.phone.replace(/[^\d+]/g, "")}` : "",
+            },
+            {
+                value: site.email,
+                href: site.email ? `mailto:${site.email}` : "",
+            },
+            {
+                value: site.address,
+                href: "",
+            },
+        ];
+
+        details.forEach((detail) => {
+            if (!detail.value || !detail.value.trim()) return;
+
+            const element = document.createElement(detail.href ? "a" : "p");
+
+            element.textContent = detail.value;
+
+            element.className = "break-words transition-colors " + "hover:text-[var(--color-primary)]";
+
+            if (detail.href) {
+                element.href = detail.href;
+            }
+
+            contact.append(element);
+        });
+    }
+
+    if (social) {
+        social.replaceChildren();
+
+        const socialPlatforms = [
+            { name: "Facebook", url: site.facebook, icon: "bi-facebook" },
+            { name: "Instagram", url: site.instagram, icon: "bi-instagram" },
+            { name: "TikTok", url: site.tiktok, icon: "bi-tiktok" },
+        ];
+
+        socialPlatforms.forEach((platform) => {
+            if (!platform.url || !/^https?:\/\//i.test(platform.url)) {
+                return;
+            }
+
+            const link = document.createElement("a");
+            link.href = platform.url;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.setAttribute("aria-label", platform.name);
+
+            link.className =
+                "inline-flex h-10 w-10 items-center justify-center " +
+                "rounded-full border border-[var(--color-border)] " +
+                "text-[var(--color-text-muted)] transition-colors " +
+                "hover:border-[var(--color-primary)] " +
+                "hover:text-[var(--color-primary)]";
+
+            const icon = document.createElement("i");
+            icon.className = `bi ${platform.icon} text-lg`;
+            icon.setAttribute("aria-hidden", "true");
+
+            link.append(icon);
+            social.append(link);
+        });
+    }
+
+    if (copyright) {
+        const year = new Date().getFullYear();
+
+        copyright.textContent = `© ${year} ${site.name}. ` + (settings.copyrightText || "All rights reserved.");
+    }
+}
 /*
 |--------------------------------------------------------------------------
 | START WEBSITE

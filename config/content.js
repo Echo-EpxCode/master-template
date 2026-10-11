@@ -618,28 +618,28 @@ const content = {
             {
                 name: "Business Partner",
                 description: "Our trusted business partner",
-                image: "./assets/images/partner-1.png",
+                image: "./assets/images/hero.jpeg",
                 alt: "Business partner logo",
                 url: "",
             },
             {
                 name: "Certified Quality",
                 description: "Commitment to quality standards",
-                image: "./assets/images/certification-1.png",
+                image: "./assets/images/hero.jpeg",
                 alt: "Quality certification logo",
                 url: "",
             },
             {
                 name: "Industry Association",
                 description: "Professional industry affiliation",
-                image: "./assets/images/association-1.png",
+                image: "./assets/images/hero.jpeg",
                 alt: "Industry association logo",
                 url: "",
             },
             {
                 name: "Community Partner",
                 description: "Supporting our local community",
-                image: "./assets/images/partner-2.png",
+                image: "./assets/images/hero.jpeg",
                 alt: "Community partner logo",
                 url: "",
             },
@@ -708,6 +708,63 @@ const content = {
         phoneLabel: "Call Us",
         emailLabel: "Email Us",
         addressLabel: "Visit Us",
+    },
+    footer: {
+        description: "Discover our business, explore our offerings, and get in touch with us.",
+
+        navigation: [
+            { label: "Home", url: "#top" },
+            { label: "About", url: "#about" },
+            { label: "Services", url: "#services" },
+            { label: "Contact", url: "#contact" },
+        ],
+
+        copyrightText: "All rights reserved.",
+        thankYouText: "Thank you for supporting our business.",
+    },
+    booking: {
+        eyebrow: "Book With Us",
+        title: "Ready to Get Started?",
+        description: "Schedule your appointment or contact us to discuss your needs.",
+        buttonLabel: "Book Now",
+        buttonUrl: "#contact",
+        note: "Contact us to confirm availability.",
+    },
+    location: {
+        eyebrow: "Find Us",
+        title: "Visit Our Location",
+        description: "Find our business and get directions using Google Maps.",
+
+        address: "Business Address, Philippines",
+
+        directionsUrl: "https://maps.app.goo.gl/DChu1WbhYhUDqwdNA",
+
+        // Optional. Use a Google Maps Embed API URL or
+        // a valid Google Maps embed URL.
+        mapEmbedUrl:
+            "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31676.0245965964!2d125.5589117987655!3d7.067519037796011!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96d5ca927d001%3A0xfe94f003e3e6e446!2sMatina%20Crossing%2C%20Talomo%2C%20Davao%20City%2C%20Davao%20del%20Sur!5e0!3m2!1sen!2sph!4v1791696480253!5m2!1sen!2sph",
+    },
+    finalCta: {
+        eyebrow: "Ready When You Are",
+        title: "Let's Make Something Great Together",
+        description: "Take the next step today. We are ready to help you get started.",
+
+        buttons: [
+            {
+                label: "Contact Us",
+                url: "#contact",
+                style: "primary",
+                icon: "bi-arrow-right",
+            },
+            {
+                label: "Explore Our Services",
+                url: "#services",
+                style: "secondary",
+                icon: "bi-arrow-up-right",
+            },
+        ],
+
+        note: "We look forward to hearing from you.",
     },
 };
 
