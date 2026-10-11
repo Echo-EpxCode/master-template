@@ -46,7 +46,7 @@ const sections = [
 
     {
         name: "team",
-        enabled: false,
+        enabled: true,
     },
 
     {

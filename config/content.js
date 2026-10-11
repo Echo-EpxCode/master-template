@@ -373,6 +373,66 @@ const content = {
             },
         ],
     },
+    team: {
+        eyebrow: "Our Team",
+
+        title: {
+            main: "Meet The",
+            highlight: "People Behind Us.",
+        },
+
+        description: "Meet the people who help make our business possible.",
+
+        members: [
+            {
+                image: "",
+
+                name: "Team Member",
+
+                role: "Founder & Owner",
+
+                description: "Passionate about building meaningful experiences for every customer.",
+
+                social: {
+                    facebook: "#",
+                    instagram: "#",
+                    linkedin: "#",
+                },
+            },
+
+            {
+                image: "",
+
+                name: "Team Member",
+
+                role: "Manager",
+
+                description: "Focused on delivering excellent service and keeping everything running smoothly.",
+
+                social: {
+                    facebook: "#",
+                    instagram: "#",
+                    linkedin: "#",
+                },
+            },
+
+            {
+                image: "",
+
+                name: "Team Member",
+
+                role: "Creative Lead",
+
+                description: "Brings ideas, creativity, and attention to detail to everything we create.",
+
+                social: {
+                    facebook: "#",
+                    instagram: "#",
+                    linkedin: "#",
+                },
+            },
+        ],
+    },
 };
 
 export default content;

@@ -95,6 +95,7 @@ function updateContent() {
     updateMenuContent();
     updatePortfolioContent();
     updateProcessContent();
+    updateTeamContent();
 }
 
 /*
@@ -1349,6 +1350,217 @@ function updateProcessContent() {
         });
 
         grid.appendChild(stepsWrapper);
+    }
+}
+/*
+|--------------------------------------------------------------------------
+| TEAM CONTENT
+|--------------------------------------------------------------------------
+*/
+function updateTeamContent() {
+    const team = content.team;
+
+    if (!team) {
+        return;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Team Elements
+    |--------------------------------------------------------------------------
+    */
+
+    const eyebrow = document.querySelector("[data-team-eyebrow]");
+
+    const titleMain = document.querySelector("[data-team-title-main]");
+
+    const titleHighlight = document.querySelector("[data-team-title-highlight]");
+
+    const description = document.querySelector("[data-team-description]");
+
+    const grid = document.querySelector("[data-team-grid]");
+
+    /*
+    |--------------------------------------------------------------------------
+    | Eyebrow
+    |--------------------------------------------------------------------------
+    */
+
+    if (eyebrow) {
+        eyebrow.textContent = team.eyebrow;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Title
+    |--------------------------------------------------------------------------
+    */
+
+    if (titleMain && team.title) {
+        titleMain.textContent = team.title.main;
+    }
+
+    if (titleHighlight && team.title) {
+        titleHighlight.textContent = team.title.highlight;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Description
+    |--------------------------------------------------------------------------
+    */
+
+    if (description) {
+        description.textContent = team.description;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Team Members
+    |--------------------------------------------------------------------------
+    */
+
+    if (grid && Array.isArray(team.members)) {
+        grid.replaceChildren();
+
+        team.members.forEach((member) => {
+            const card = document.createElement("article");
+
+            card.className =
+                "group overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]";
+
+            /*
+                |--------------------------------------------------------------------------
+                | Member Image
+                |--------------------------------------------------------------------------
+                */
+
+            const imageWrapper = document.createElement("div");
+
+            imageWrapper.className =
+                "relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-[var(--color-surface-soft)]";
+
+            if (member.image) {
+                const image = document.createElement("img");
+
+                image.src = member.image;
+
+                image.alt = member.name || "";
+
+                image.className = "h-full w-full object-cover transition-transform duration-500 group-hover:scale-105";
+
+                imageWrapper.appendChild(image);
+            } else {
+                const placeholder = document.createElement("div");
+
+                placeholder.className = "flex h-full w-full flex-col items-center justify-center";
+
+                const icon = document.createElement("i");
+
+                icon.className = "bi bi-person text-6xl text-[var(--color-primary)]";
+
+                icon.setAttribute("aria-hidden", "true");
+
+                const placeholderText = document.createElement("span");
+
+                placeholderText.className = "mt-3 text-sm font-medium text-[var(--color-text-muted)]";
+
+                placeholderText.textContent = "Team Photo";
+
+                placeholder.append(icon, placeholderText);
+
+                imageWrapper.appendChild(placeholder);
+            }
+
+            /*
+                |--------------------------------------------------------------------------
+                | Member Content
+                |--------------------------------------------------------------------------
+                */
+
+            const contentWrapper = document.createElement("div");
+
+            contentWrapper.className = "p-6 text-center";
+
+            const name = document.createElement("h3");
+
+            name.className = "text-xl font-bold tracking-tight text-[var(--color-text)]";
+
+            name.textContent = member.name;
+
+            const role = document.createElement("p");
+
+            role.className = "mt-1 text-sm font-semibold text-[var(--color-primary)]";
+
+            role.textContent = member.role;
+
+            const text = document.createElement("p");
+
+            text.className = "mt-4 text-base leading-7 text-[var(--color-text-muted)]";
+
+            text.textContent = member.description || "";
+
+            /*
+                |--------------------------------------------------------------------------
+                | Social Links
+                |--------------------------------------------------------------------------
+                */
+
+            const social = document.createElement("div");
+
+            social.className = "mt-5 flex items-center justify-center gap-2";
+
+            const socialLinks = [
+                {
+                    key: "facebook",
+                    icon: "bi-facebook",
+                    label: "Facebook",
+                },
+                {
+                    key: "instagram",
+                    icon: "bi-instagram",
+                    label: "Instagram",
+                },
+                {
+                    key: "linkedin",
+                    icon: "bi-linkedin",
+                    label: "LinkedIn",
+                },
+            ];
+
+            socialLinks.forEach((socialItem) => {
+                const url = member.social?.[socialItem.key];
+
+                if (!url) {
+                    return;
+                }
+
+                const link = document.createElement("a");
+
+                link.href = url;
+
+                link.className =
+                    "flex h-9 w-9 items-center justify-center rounded-full border border-[var(--color-border)] text-[var(--color-text-muted)] transition-all duration-300 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-surface)]";
+
+                link.setAttribute("aria-label", socialItem.label);
+
+                const icon = document.createElement("i");
+
+                icon.className = `bi ${socialItem.icon}`;
+
+                icon.setAttribute("aria-hidden", "true");
+
+                link.appendChild(icon);
+
+                social.appendChild(link);
+            });
+
+            contentWrapper.append(name, role, text, social);
+
+            card.append(imageWrapper, contentWrapper);
+
+            grid.appendChild(card);
+        });
     }
 }
 /*
