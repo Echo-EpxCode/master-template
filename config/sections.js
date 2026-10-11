@@ -1,7 +1,7 @@
 const sections = [
     {
         name: "header",
-        enabled: true,
+        enabled: false,
     },
 
     {
@@ -66,7 +66,7 @@ const sections = [
 
     {
         name: "testimonials",
-        enabled: true,
+        enabled: false,
     },
 
     {
@@ -96,7 +96,7 @@ const sections = [
 
     {
         name: "contact",
-        enabled: false,
+        enabled: true,
     },
 
     {

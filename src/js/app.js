@@ -99,6 +99,13 @@ function updateContent() {
     updateStatisticsContent();
     updateGalleryContent();
     updateVideoContent();
+    updateTestimonialsContent();
+    updateReviewsContent();
+    updateRatingsContent();
+    updateSocialProofContent();
+    updateCtaContent();
+    updateSocialCtaContent();
+    updateContactContent();
 }
 
 /*
@@ -1835,43 +1842,716 @@ function updateVideoContent() {
 | TESTIMONIAL CONTENT
 |--------------------------------------------------------------------------
 */
+function updateTestimonialsContent() {
+    const testimonials = content.testimonials;
 
+    if (!testimonials) {
+        return;
+    }
+
+    const eyebrow = document.querySelector("[data-testimonials-eyebrow]");
+
+    const titleMain = document.querySelector("[data-testimonials-title-main]");
+
+    const titleHighlight = document.querySelector("[data-testimonials-title-highlight]");
+
+    const description = document.querySelector("[data-testimonials-description]");
+
+    const grid = document.querySelector("[data-testimonials-grid]");
+
+    if (eyebrow) {
+        eyebrow.textContent = testimonials.eyebrow || "";
+    }
+
+    if (titleMain && testimonials.title) {
+        titleMain.textContent = testimonials.title.main || "";
+    }
+
+    if (titleHighlight && testimonials.title) {
+        titleHighlight.textContent = testimonials.title.highlight || "";
+    }
+
+    if (description) {
+        description.textContent = testimonials.description || "";
+    }
+
+    if (!grid || !Array.isArray(testimonials.items)) {
+        return;
+    }
+
+    grid.replaceChildren();
+
+    testimonials.items.forEach((item) => {
+        const card = document.createElement("article");
+
+        card.className =
+            "flex h-full flex-col rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-[var(--shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)] sm:p-6";
+
+        const stars = document.createElement("div");
+
+        stars.className = "mb-4 flex items-center gap-1 text-[var(--color-primary)]";
+
+        stars.setAttribute("aria-label", `${Math.max(0, Math.min(5, Number(item.rating) || 0))} out of 5 stars`);
+
+        const rating = Math.max(0, Math.min(5, Math.floor(Number(item.rating) || 0)));
+
+        for (let i = 0; i < rating; i++) {
+            const star = document.createElement("i");
+
+            star.className = "bi bi-star-fill";
+            star.setAttribute("aria-hidden", "true");
+
+            stars.appendChild(star);
+        }
+
+        const quoteMark = document.createElement("i");
+
+        quoteMark.className = "bi bi-quote mb-2 text-2xl text-[var(--color-primary)]/70";
+
+        quoteMark.setAttribute("aria-hidden", "true");
+
+        const quote = document.createElement("blockquote");
+
+        quote.className = "flex-1 text-sm leading-7 text-[var(--color-text-muted)]";
+
+        quote.textContent = item.quote || "";
+
+        const divider = document.createElement("div");
+
+        divider.className = "my-5 border-t border-[var(--color-border)]";
+
+        const name = document.createElement("p");
+
+        name.className = "font-semibold text-[var(--color-text)]";
+
+        name.textContent = item.name || "Customer";
+
+        const detail = document.createElement("p");
+
+        detail.className = "mt-1 text-xs text-[var(--color-text-muted)]";
+
+        detail.textContent = item.detail || "";
+
+        const customer = document.createElement("div");
+
+        customer.append(name, detail);
+
+        card.append(stars, quoteMark, quote, divider, customer);
+
+        grid.appendChild(card);
+    });
+}
 /*
 |--------------------------------------------------------------------------
 | REVIEW CONTENT
 |--------------------------------------------------------------------------
 */
+function updateReviewsContent() {
+    const reviews = content.reviews;
 
+    if (!reviews) {
+        return;
+    }
+
+    const eyebrow = document.querySelector("[data-reviews-eyebrow]");
+
+    const titleMain = document.querySelector("[data-reviews-title-main]");
+
+    const titleHighlight = document.querySelector("[data-reviews-title-highlight]");
+
+    const description = document.querySelector("[data-reviews-description]");
+
+    const grid = document.querySelector("[data-reviews-grid]");
+
+    if (eyebrow) {
+        eyebrow.textContent = reviews.eyebrow || "";
+    }
+
+    if (titleMain && reviews.title) {
+        titleMain.textContent = reviews.title.main || "";
+    }
+
+    if (titleHighlight && reviews.title) {
+        titleHighlight.textContent = reviews.title.highlight || "";
+    }
+
+    if (description) {
+        description.textContent = reviews.description || "";
+    }
+
+    if (!grid || !Array.isArray(reviews.items)) {
+        return;
+    }
+
+    grid.replaceChildren();
+
+    reviews.items.forEach((item) => {
+        const card = document.createElement("article");
+
+        card.className =
+            "flex h-full flex-col rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)] sm:p-7";
+
+        const iconWrapper = document.createElement("div");
+
+        iconWrapper.className =
+            "mb-5 flex h-12 w-12 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary)]/10 text-xl text-[var(--color-primary)]";
+
+        const icon = document.createElement("i");
+
+        const iconName = /^bi-[a-z0-9-]+$/.test(item.icon || "") ? item.icon : "bi-chat-square-text";
+
+        icon.className = `bi ${iconName}`;
+        icon.setAttribute("aria-hidden", "true");
+
+        iconWrapper.appendChild(icon);
+
+        const platform = document.createElement("h3");
+
+        platform.className = "text-lg font-semibold text-[var(--color-text)]";
+
+        platform.textContent = item.platform || "Review Platform";
+
+        const cardDescription = document.createElement("p");
+
+        cardDescription.className = "mt-2 flex-1 text-sm leading-6 text-[var(--color-text-muted)]";
+
+        cardDescription.textContent = item.description || "";
+
+        card.append(iconWrapper, platform, cardDescription);
+
+        const isSafeUrl = typeof item.url === "string" && /^https?:\/\/\S+$/i.test(item.url);
+
+        if (isSafeUrl) {
+            const link = document.createElement("a");
+
+            link.href = item.url;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+
+            link.className =
+                "mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-[var(--radius-md)] bg-[var(--color-primary)] px-5 py-3 text-center text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+
+            const label = document.createElement("span");
+
+            label.textContent = item.buttonLabel || "Visit Platform";
+
+            const arrow = document.createElement("i");
+
+            arrow.className = "bi bi-arrow-up-right";
+            arrow.setAttribute("aria-hidden", "true");
+
+            link.append(label, arrow);
+            card.appendChild(link);
+        } else {
+            const notice = document.createElement("p");
+
+            notice.className = "mt-6 text-sm text-[var(--color-text-muted)]";
+
+            notice.textContent = "Add a valid review platform URL in config/content.js.";
+
+            card.appendChild(notice);
+        }
+
+        grid.appendChild(card);
+    });
+}
 /*
 |--------------------------------------------------------------------------
 | RATINGS CONTENT
 |--------------------------------------------------------------------------
 */
+function updateRatingsContent() {
+    const ratings = content.ratings;
 
+    if (!ratings) {
+        return;
+    }
+
+    const eyebrow = document.querySelector("[data-ratings-eyebrow]");
+
+    const titleMain = document.querySelector("[data-ratings-title-main]");
+
+    const titleHighlight = document.querySelector("[data-ratings-title-highlight]");
+
+    const description = document.querySelector("[data-ratings-description]");
+
+    const grid = document.querySelector("[data-ratings-grid]");
+
+    if (eyebrow) {
+        eyebrow.textContent = ratings.eyebrow || "";
+    }
+
+    if (titleMain && ratings.title) {
+        titleMain.textContent = ratings.title.main || "";
+    }
+
+    if (titleHighlight && ratings.title) {
+        titleHighlight.textContent = ratings.title.highlight || "";
+    }
+
+    if (description) {
+        description.textContent = ratings.description || "";
+    }
+
+    if (!grid || !Array.isArray(ratings.items)) {
+        return;
+    }
+
+    grid.replaceChildren();
+
+    ratings.items.forEach((item) => {
+        const rating = Number(item.rating);
+        const reviewCount = Number(item.reviewCount);
+
+        const validRating = Number.isFinite(rating) && rating >= 0 && rating <= 5;
+
+        const validCount = Number.isInteger(reviewCount) && reviewCount >= 0;
+
+        const card = document.createElement("article");
+
+        card.className =
+            "rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-sm)] sm:p-7";
+
+        const header = document.createElement("div");
+
+        header.className = "flex items-center gap-4";
+
+        const iconWrapper = document.createElement("div");
+
+        iconWrapper.className =
+            "flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-primary)]/10 text-xl text-[var(--color-primary)]";
+
+        const icon = document.createElement("i");
+
+        const iconName = /^bi-[a-z0-9-]+$/.test(item.icon || "") ? item.icon : "bi-star";
+
+        icon.className = `bi ${iconName}`;
+        icon.setAttribute("aria-hidden", "true");
+
+        iconWrapper.appendChild(icon);
+
+        const platform = document.createElement("h3");
+
+        platform.className = "font-semibold text-[var(--color-text)]";
+
+        platform.textContent = item.platform || "Review Platform";
+
+        header.append(iconWrapper, platform);
+
+        const score = document.createElement("p");
+
+        score.className = "mt-6 text-4xl font-bold tracking-tight text-[var(--color-text)]";
+
+        const stars = document.createElement("div");
+
+        stars.className = "mt-2 flex items-center gap-1 text-[var(--color-primary)]";
+
+        const details = document.createElement("p");
+
+        details.className = "mt-3 text-sm leading-6 text-[var(--color-text-muted)]";
+
+        if (validRating && validCount) {
+            score.textContent = rating.toFixed(1);
+
+            stars.setAttribute("aria-label", `${rating.toFixed(1)} out of 5`);
+
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating - fullStars >= 0.5;
+
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement("i");
+
+                if (i < fullStars) {
+                    star.className = "bi bi-star-fill";
+                } else if (i === fullStars && hasHalfStar) {
+                    star.className = "bi bi-star-half";
+                } else {
+                    star.className = "bi bi-star";
+                }
+
+                star.setAttribute("aria-hidden", "true");
+                stars.appendChild(star);
+            }
+
+            details.textContent = `${reviewCount.toLocaleString()} review${reviewCount === 1 ? "" : "s"}`;
+        } else {
+            score.textContent = "Not available";
+            details.textContent = "Add a valid rating and review count in config/content.js.";
+        }
+
+        card.append(header, score, stars, details);
+
+        const isSafeUrl = typeof item.url === "string" && /^https?:\/\/\S+$/i.test(item.url);
+
+        if (isSafeUrl) {
+            const link = document.createElement("a");
+
+            link.href = item.url;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+
+            link.className =
+                "mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--color-primary)] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+
+            link.textContent = `View ${item.platform || "reviews"}`;
+
+            const arrow = document.createElement("i");
+
+            arrow.className = "bi bi-arrow-up-right";
+            arrow.setAttribute("aria-hidden", "true");
+
+            link.appendChild(arrow);
+            card.appendChild(link);
+        }
+
+        grid.appendChild(card);
+    });
+}
 /*
 |--------------------------------------------------------------------------
 | SOCIAL PROOF CONTENT
 |--------------------------------------------------------------------------
 */
+function updateSocialProofContent() {
+    const socialProof = content.socialProof;
 
+    if (!socialProof) {
+        return;
+    }
+
+    const eyebrow = document.querySelector("[data-social-proof-eyebrow]");
+
+    const titleMain = document.querySelector("[data-social-proof-title-main]");
+
+    const titleHighlight = document.querySelector("[data-social-proof-title-highlight]");
+
+    const description = document.querySelector("[data-social-proof-description]");
+
+    const grid = document.querySelector("[data-social-proof-grid]");
+
+    if (eyebrow) {
+        eyebrow.textContent = socialProof.eyebrow || "";
+    }
+
+    if (titleMain && socialProof.title) {
+        titleMain.textContent = socialProof.title.main || "";
+    }
+
+    if (titleHighlight && socialProof.title) {
+        titleHighlight.textContent = socialProof.title.highlight || "";
+    }
+
+    if (description) {
+        description.textContent = socialProof.description || "";
+    }
+
+    if (!grid || !Array.isArray(socialProof.items)) {
+        return;
+    }
+
+    grid.replaceChildren();
+
+    socialProof.items.forEach((item) => {
+        const card = document.createElement("article");
+
+        card.className =
+            "flex min-h-44 flex-col items-center justify-center rounded-[var(--radius-xl)] border border-[var(--color-border)] bg-[var(--color-surface)] p-5 text-center shadow-[var(--shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]";
+
+        if (item.image) {
+            const image = document.createElement("img");
+
+            image.src = item.image;
+            image.alt = item.alt || item.name || "";
+            image.loading = "lazy";
+            image.decoding = "async";
+
+            image.className = "mb-4 h-16 w-full object-contain";
+
+            image.addEventListener(
+                "error",
+                () => {
+                    image.remove();
+                },
+                { once: true },
+            );
+
+            card.appendChild(image);
+        }
+
+        const name = document.createElement("h3");
+
+        name.className = "text-sm font-semibold text-[var(--color-text)]";
+
+        name.textContent = item.name || "Trust Indicator";
+
+        const itemDescription = document.createElement("p");
+
+        itemDescription.className = "mt-2 text-xs leading-5 text-[var(--color-text-muted)]";
+
+        itemDescription.textContent = item.description || "";
+
+        card.append(name, itemDescription);
+
+        const isSafeUrl = typeof item.url === "string" && /^https?:\/\/\S+$/i.test(item.url);
+
+        if (isSafeUrl) {
+            const link = document.createElement("a");
+
+            link.href = item.url;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+
+            link.className =
+                "mt-3 text-xs font-semibold text-[var(--color-primary)] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+
+            link.textContent = "Learn more";
+
+            card.appendChild(link);
+        }
+
+        grid.appendChild(card);
+    });
+}
 /*
 |--------------------------------------------------------------------------
 | CTA CONTENT
 |--------------------------------------------------------------------------
 */
+function updateCtaContent() {
+    const cta = content.cta;
 
+    if (!cta) {
+        return;
+    }
+
+    const eyebrow = document.querySelector("[data-cta-eyebrow]");
+
+    const titleMain = document.querySelector("[data-cta-title-main]");
+
+    const titleHighlight = document.querySelector("[data-cta-title-highlight]");
+
+    const description = document.querySelector("[data-cta-description]");
+
+    const actions = document.querySelector("[data-cta-actions]");
+
+    if (eyebrow) {
+        eyebrow.textContent = cta.eyebrow || "";
+    }
+
+    if (titleMain && cta.title) {
+        titleMain.textContent = cta.title.main || "";
+    }
+
+    if (titleHighlight && cta.title) {
+        titleHighlight.textContent = cta.title.highlight || "";
+    }
+
+    if (description) {
+        description.textContent = cta.description || "";
+    }
+
+    if (!actions || !Array.isArray(cta.buttons)) {
+        return;
+    }
+
+    actions.replaceChildren();
+
+    cta.buttons.forEach((buttonData) => {
+        const url = buttonData.url || "";
+
+        const isSafeUrl = /^(https?:\/\/\S+|#[a-zA-Z][\w-]*|mailto:\S+|tel:\+?[\d(). -]+)$/i.test(url);
+
+        if (!isSafeUrl) {
+            return;
+        }
+
+        const link = document.createElement("a");
+
+        link.href = url;
+
+        link.className =
+            buttonData.style === "secondary"
+                ? "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-3 text-sm font-semibold text-[var(--color-text)] transition-colors hover:bg-[var(--color-surface-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] sm:w-auto"
+                : "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[var(--radius-md)] bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-white shadow-[var(--shadow-sm)] transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] sm:w-auto";
+
+        const label = document.createElement("span");
+
+        label.textContent = buttonData.label || "Learn More";
+
+        link.appendChild(label);
+
+        if (/^https?:\/\//i.test(url)) {
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+        }
+
+        if (typeof buttonData.icon === "string" && /^bi-[a-z0-9-]+$/.test(buttonData.icon)) {
+            const icon = document.createElement("i");
+
+            icon.className = `bi ${buttonData.icon}`;
+            icon.setAttribute("aria-hidden", "true");
+
+            link.appendChild(icon);
+        }
+
+        actions.appendChild(link);
+    });
+}
 /*
 |--------------------------------------------------------------------------
 | SOCIAL CTA CONTENT
 |--------------------------------------------------------------------------
 */
+function updateSocialCtaContent() {
+    const socialCta = content.socialCta;
 
+    if (!socialCta) {
+        return;
+    }
+
+    const eyebrow = document.querySelector("[data-social-cta-eyebrow]");
+
+    const title = document.querySelector("[data-social-cta-title]");
+
+    const description = document.querySelector("[data-social-cta-description]");
+
+    const linksContainer = document.querySelector("[data-social-cta-links]");
+
+    if (eyebrow) {
+        eyebrow.textContent = socialCta.eyebrow || "";
+    }
+
+    if (title) {
+        title.textContent = socialCta.title || "";
+    }
+
+    if (description) {
+        description.textContent = socialCta.description || "";
+    }
+
+    if (!linksContainer || !Array.isArray(socialCta.links)) {
+        return;
+    }
+
+    linksContainer.replaceChildren();
+
+    socialCta.links.forEach((item) => {
+        const isSafeUrl = typeof item.url === "string" && /^https?:\/\/\S+$/i.test(item.url);
+
+        if (!isSafeUrl) {
+            return;
+        }
+
+        const link = document.createElement("a");
+
+        link.href = item.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        link.className =
+            "inline-flex min-h-11 items-center justify-center gap-2 rounded-[var(--radius-full)] border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-3 text-sm font-semibold text-[var(--color-text)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]";
+
+        if (typeof item.icon === "string" && /^bi-[a-z0-9-]+$/.test(item.icon)) {
+            const icon = document.createElement("i");
+
+            icon.className = `bi ${item.icon}`;
+            icon.setAttribute("aria-hidden", "true");
+
+            link.appendChild(icon);
+        }
+
+        const label = document.createElement("span");
+
+        label.textContent = item.platform || "Follow Us";
+
+        link.appendChild(label);
+        linksContainer.appendChild(link);
+    });
+}
 /*
 |--------------------------------------------------------------------------
 | CONTACT CONTENT
 |--------------------------------------------------------------------------
 */
+function updateContactContent() {
+    const section = document.querySelector("#contact");
 
+    if (!section) return;
+
+    const settings = content.contact;
+
+    if (!settings) return;
+
+    const eyebrow = section.querySelector("[data-contact-eyebrow]");
+    const title = section.querySelector("[data-contact-title]");
+    const description = section.querySelector("[data-contact-description]");
+    const container = section.querySelector("[data-contact-details]");
+
+    if (eyebrow) eyebrow.textContent = settings.eyebrow;
+    if (title) title.textContent = settings.title;
+    if (description) {
+        description.textContent = settings.description;
+    }
+
+    if (!container) return;
+
+    container.replaceChildren();
+
+    const details = [
+        {
+            label: settings.phoneLabel,
+            value: site.phone,
+            icon: "bi-telephone",
+            href: site.phone ? `tel:${site.phone.replace(/[^\d+]/g, "")}` : "",
+        },
+        {
+            label: settings.emailLabel,
+            value: site.email,
+            icon: "bi-envelope",
+            href: site.email ? `mailto:${site.email}` : "",
+        },
+        {
+            label: settings.addressLabel,
+            value: site.address,
+            icon: "bi-geo-alt",
+            href: "",
+        },
+    ];
+
+    details.forEach((detail) => {
+        if (!detail.value || detail.value.trim() === "") return;
+
+        const card = document.createElement("div");
+
+        card.className =
+            "rounded-2xl border border-[var(--color-border)] " +
+            "bg-[var(--color-surface)] p-6 shadow-sm " +
+            "transition duration-300 hover:-translate-y-1 " +
+            "hover:shadow-md";
+
+        const icon = document.createElement("i");
+        icon.className = `bi ${detail.icon} mb-4 inline-flex text-2xl ` + "text-[var(--color-primary)]";
+        icon.setAttribute("aria-hidden", "true");
+
+        const label = document.createElement("h3");
+        label.className = "mb-2 text-lg font-semibold text-[var(--color-text)]";
+        label.textContent = detail.label;
+
+        const value = document.createElement(detail.href ? "a" : "p");
+
+        value.className = "break-words text-sm leading-7 " + "text-[var(--color-text-muted)]";
+
+        value.textContent = detail.value;
+
+        if (detail.href) {
+            value.setAttribute("href", detail.href);
+            value.classList.add("transition-colors", "hover:text-[var(--color-primary)]");
+        }
+
+        card.append(icon, label, value);
+        container.append(card);
+    });
+}
 /*
 |--------------------------------------------------------------------------
 | BOOKING CONTENT

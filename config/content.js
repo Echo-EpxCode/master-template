@@ -550,6 +550,165 @@ const content = {
             },
         ],
     },
+    reviews: {
+        eyebrow: "Share Your Experience",
+
+        title: {
+            main: "Your Feedback",
+            highlight: "Matters.",
+        },
+
+        description: "Had a great experience? Share your feedback on our review platforms.",
+
+        items: [
+            {
+                platform: "Google Reviews",
+                description: "Share your experience and help others discover our business.",
+                url: "https://g.page/r/YOUR_REVIEW_LINK/review",
+                icon: "bi-google",
+                buttonLabel: "Write a Google Review",
+            },
+            {
+                platform: "Facebook",
+                description: "Visit our Facebook page to connect with our community.",
+                url: "https://www.facebook.com/YOUR_PAGE",
+                icon: "bi-facebook",
+                buttonLabel: "Visit Our Facebook",
+            },
+        ],
+    },
+    ratings: {
+        eyebrow: "Trusted by Our Customers",
+
+        title: {
+            main: "Our Reputation",
+            highlight: "Speaks.",
+        },
+
+        description: "See how customers rate their experience with our business.",
+
+        items: [
+            {
+                platform: "Google",
+                rating: 4.8,
+                reviewCount: 125,
+                url: "https://g.page/r/YOUR_REVIEW_LINK/review",
+                icon: "bi-google",
+            },
+            {
+                platform: "Facebook",
+                rating: 4.9,
+                reviewCount: 80,
+                url: "https://www.facebook.com/YOUR_PAGE",
+                icon: "bi-facebook",
+            },
+        ],
+    },
+    socialProof: {
+        eyebrow: "Trusted Connections",
+
+        title: {
+            main: "Built on Trust,",
+            highlight: "Backed by Quality.",
+        },
+
+        description: "We value the partnerships and standards that help us serve our customers.",
+
+        items: [
+            {
+                name: "Business Partner",
+                description: "Our trusted business partner",
+                image: "./assets/images/partner-1.png",
+                alt: "Business partner logo",
+                url: "",
+            },
+            {
+                name: "Certified Quality",
+                description: "Commitment to quality standards",
+                image: "./assets/images/certification-1.png",
+                alt: "Quality certification logo",
+                url: "",
+            },
+            {
+                name: "Industry Association",
+                description: "Professional industry affiliation",
+                image: "./assets/images/association-1.png",
+                alt: "Industry association logo",
+                url: "",
+            },
+            {
+                name: "Community Partner",
+                description: "Supporting our local community",
+                image: "./assets/images/partner-2.png",
+                alt: "Community partner logo",
+                url: "",
+            },
+        ],
+    },
+    cta: {
+        eyebrow: "Let's Get Started",
+
+        title: {
+            main: "Ready to Take the",
+            highlight: "Next Step?",
+        },
+
+        description: "Contact us today to learn more about what we offer.",
+
+        buttons: [
+            {
+                label: "Contact Us",
+                url: "#contact",
+                style: "primary",
+                icon: "bi-arrow-right",
+            },
+            {
+                label: "Explore Our Services",
+                url: "#services",
+                style: "secondary",
+                icon: "bi-grid",
+            },
+        ],
+    },
+    socialCta: {
+        eyebrow: "Stay Connected",
+
+        title: "Follow Us on Social Media",
+
+        description: "Follow our pages for updates, new products, and announcements.",
+
+        links: [
+            {
+                platform: "Facebook",
+                url: "https://www.facebook.com/YOUR_PAGE",
+                icon: "bi-facebook",
+            },
+            {
+                platform: "Instagram",
+                url: "https://www.instagram.com/YOUR_PAGE",
+                icon: "bi-instagram",
+            },
+            {
+                platform: "TikTok",
+                url: "https://www.tiktok.com/@YOUR_PAGE",
+                icon: "bi-tiktok",
+            },
+            {
+                platform: "YouTube",
+                url: "https://www.youtube.com/@YOUR_CHANNEL",
+                icon: "bi-youtube",
+            },
+        ],
+    },
+    contact: {
+        eyebrow: "Get in Touch",
+        title: "Contact Us",
+        description: "Have a question? Use the contact details below to reach us.",
+
+        phoneLabel: "Call Us",
+        emailLabel: "Email Us",
+        addressLabel: "Visit Us",
+    },
 };
 
 export default content;
