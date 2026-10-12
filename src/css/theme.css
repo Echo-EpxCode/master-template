@@ -552,8 +552,8 @@ select {
     pointer-events: none;
 
     transition:
-        opacity 400ms ease,
-        visibility 400ms ease;
+        opacity 350ms ease 30ms,
+        visibility 350ms ease 30ms;
 }
 
 .mobile-navigation-backdrop.is-open {
@@ -603,8 +603,8 @@ select {
     pointer-events: none;
 
     transition:
-        transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 450ms ease;
+        transform 450ms cubic-bezier(0.22, 1, 0.36, 1) 50ms,
+        visibility 450ms ease 50ms;
     will-change: transform;
 }
 
